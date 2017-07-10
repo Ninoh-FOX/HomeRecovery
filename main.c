@@ -25,7 +25,7 @@ void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("                     --[Recovery Menu]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.1]--                         \n");
+	psvDebugScreenPrintf("                     --[HaiMenu  v0.1b]--                        \n");
 	psvDebugScreenSetFgColor(COLOR_GREEN);
 	psvDebugScreenPrintf("Option(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_WHITE);
@@ -58,7 +58,7 @@ int main()
 	int found = 0;// /shrug
 	for(int tries = 0; tries < 30; tries++){//Check if clicked
 		sceCtrlPeekBufferPositive(0, &pad, 1);
-		if (pad.buttons == SCE_CTRL_RTRIGGER || pad.buttons == SCE_CTRL_LTRIGGER) {
+		if (pad.buttons == SCE_CTRL_RTRIGGER || pad.buttons == SCE_CTRL_LTRIGGER || pad.buttons == SCE_CTRL_L1 || pad.buttons == SCE_CTRL_R1 ) {
 			found = 1;
 			break;
 		}
