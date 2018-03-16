@@ -9,9 +9,9 @@
 
 #include "graphics.h"
 
-char menu_items[][50] = {" 	 Continuar - ir a la secuencia de inicio normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - soluciones comunes para problemas al detener el arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo más"};
+char menu_items[][50] = {" 	 Continuar - ir a la secuencia de inicio normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
 
-char menu_options [][6][26] = {  {"Normal","shell2.self"} , {"Suspender","Restaurar","IDU activo","IDU desactivado","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar config.txt de tai","Restaurar registro"} , {"Montar Memory Card","Desmontar Memory Card"} , {"Iniciar vitashell","Obtener información del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][6][26] = {  {"Normal","shell2.self"} , {"Suspender","Restaurar","IDU activo","IDU desactivado","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar config.txt de ux0:tai","Restaurar registro"} , {"Montar Memory Card","Desmontar Memory Card"} , {"Iniciar vitashell","Obtener informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int selected = 0;
 int sub_selected = 0;
@@ -81,7 +81,7 @@ int main()
 					case 0://Continue
 						switch (sub_selected){
 							case 0:
-								sprintf(con_data, "Continuar secuencia de arranque... ");
+								sprintf(con_data, "Continuando arranque... ");
 								strcat(log_text,con_data);
 								select_menu();
 								sceKernelDelayThread(1 * 1000 * 1000);
@@ -140,7 +140,7 @@ int main()
 								break;
 							case 2://Delete tai config
 								ret = sceIoRemove("ux0:tai/config.txt");
-								sprintf(con_data, "Borrar configuracion tai de la tarjeta de memoria: %d ", ret);
+								sprintf(con_data, "Borrarando configuracion ux0:tai (MCard) %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 3://Restore registry 
