@@ -23,12 +23,12 @@ char log_text[800];
 
 void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
-	psvDebugScreenSetFgColor(COLOR_RED);
+	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("                     --[Menu Recovery]--                         \n");
 	psvDebugScreenPrintf("                     --[HaiMenu  v0.2]--                        \n");
-	psvDebugScreenSetFgColor(COLOR_GREEN);
+	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
-	psvDebugScreenSetFgColor(COLOR_WHITE);
+	psvDebugScreenSetFgColor(COLOR_GREEN);
 	
 	for(i = 0; i < item_count; i++){
 		if(selected==i){
@@ -39,7 +39,7 @@ void select_menu(){
 		psvDebugScreenSetFgColor(COLOR_WHITE);
 	}
 	
-	psvDebugScreenSetFgColor(COLOR_YELLOW);
+	psvDebugScreenSetFgColor(COLOR_CYAN);
 	psvDebugScreenPrintf("\n\nLog:\n\n%s",log_text);
 	
 	if(strlen(log_text) > 780 ){
