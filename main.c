@@ -9,9 +9,9 @@
 
 #include "graphics.h"
 
-char menu_items[][50] = {" 	 Continue - goes to the normal boot sequence"," 	 Boot - boot into differnt modes"," 	 Fixes - common fixes to problems stopping boot"," 	 Mount - mount partitions to points"," 	 Extras - anything else"};
+char menu_items[][50] = {" 	 Continuar - ir a la secuencia de inicio normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - soluciones comunes para problemas al detener el arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo más"};
 
-char menu_options [][6][26] = {  {"Normal","shell2.self"} , {"Suspend","Restart","IDU Enable","IDU Disable","Safe Mode"} , {"Delete id.dat","Delete act.dat","Delete tai config","Restore Registry"} , {"Mount Memory Card","Unmount Memory Card"} , {"Start vitashell","Get System Information","Test Buttons","Clear Log"}  };
+char menu_options [][6][26] = {  {"Normal","shell2.self"} , {"Suspender","Restaurar","IDU activo","IDU desactivado","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar config.txt de tai","Restaurar registro"} , {"Montar Memory Card","Desmontar Memory Card"} , {"Iniciar vitashell","Obtener información del sistema","Testear botones","Limpiar LOG"}  };
 
 int selected = 0;
 int sub_selected = 0;
@@ -24,10 +24,10 @@ char log_text[800];
 void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_RED);
-	psvDebugScreenPrintf("                     --[Recovery Menu]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.1b]--                        \n");
+	psvDebugScreenPrintf("                     --[Menu Recovery]--                         \n");
+	psvDebugScreenPrintf("                     --[HaiMenu  v0.2]--                        \n");
 	psvDebugScreenSetFgColor(COLOR_GREEN);
-	psvDebugScreenPrintf("Option(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
+	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_WHITE);
 	
 	for(i = 0; i < item_count; i++){
@@ -81,7 +81,7 @@ int main()
 					case 0://Continue
 						switch (sub_selected){
 							case 0:
-								sprintf(con_data, "Continuing boot sequence... ");
+								sprintf(con_data, "Continuar secuencia de arranque... ");
 								strcat(log_text,con_data);
 								select_menu();
 								sceKernelDelayThread(1 * 1000 * 1000);
@@ -89,7 +89,7 @@ int main()
 								break;
 							case 1:
 								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell2.self", NULL, NULL);//DOESNT WORK
-								sprintf(con_data, "Booting shell2.self: %d ",ret);
+								sprintf(con_data, "Cargando shell2.self: %d ",ret);
 								strcat(log_text,con_data);
 								select_menu();
 								break;
@@ -100,27 +100,27 @@ int main()
 						switch (sub_selected){
 							case 0://Suspend
 								ret = scePowerRequestSuspend();
-								sprintf(con_data, "Suspend: %d ", ret);
+								sprintf(con_data, "Suspender: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Restart
 								ret = scePowerRequestColdReset();
-								sprintf(con_data, "Restart: %d ", ret);
+								sprintf(con_data, "Restaurar: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 2://IDU Enable
 								ret = vshSysconIduModeSet();
-								sprintf(con_data, "IDU Enable: %d ", ret);
+								sprintf(con_data, "IDU activado: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 3://IDU Disable
 								ret = vshSysconIduModeClear();
-								sprintf(con_data, "IDU Disable: %d ", ret);
+								sprintf(con_data, "IDU desactivado: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 4://Safe mode
 								ret = sceAppMgrLoadExec("os0:ue/safemode.self", NULL, NULL);//DOESNT WORK
-								sprintf(con_data, "Safe mode: %d ", ret);
+								sprintf(con_data, "Modo seguro: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							
@@ -130,26 +130,26 @@ int main()
 						switch (sub_selected){
 							case 0://Delete id.dat
 								ret = sceIoRemove("ux0:/id.dat");
-								sprintf(con_data, "Del id.dat: %d ", ret);
+								sprintf(con_data, "Borrar id.dat: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Delete act.dat
 								ret = sceIoRemove("tm0:npdrm/act.dat");
-								sprintf(con_data, "Del act.dat: %d ", ret);
+								sprintf(con_data, "Borrar act.dat: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 2://Delete tai config
 								ret = sceIoRemove("ux0:tai/config.txt");
-								sprintf(con_data, "Del tai config: %d ", ret);
+								sprintf(con_data, "Borrar configuracion tai de la tarjeta de memoria: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 3://Restore registry 
 								ret = sceIoRemove("vd0:registry/system.ireg");
-								sprintf(con_data, "Restore iregistry: %d ", ret);
+								sprintf(con_data, "Restaurando iregistry: %d ", ret);
 								strcat(log_text,con_data);
 								
 								ret = sceIoRemove("vd0:registry/system.dreg");
-								sprintf(con_data, "Restore dregistry: %d ", ret);
+								sprintf(con_data, "Restaurando dregistry: %d ", ret);
 								strcat(log_text,con_data);
 								
 								break;
@@ -160,12 +160,12 @@ int main()
 						switch (sub_selected){
 							case 0://Mount mem card
 								ret = _vshIoMount(0x800, NULL, 0, 0, 0, 0);
-								sprintf(con_data, "Mount Card: %d ", ret);
+								sprintf(con_data, "Montar Tarjeta de memoria: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Unmount mem card
 								ret = vshIoUmount(0x800, 0, 0, 0);
-								sprintf(con_data, "Unmount Card: %d ", ret);
+								sprintf(con_data, "Desmontar Tarjeta de memoria: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							
@@ -175,7 +175,7 @@ int main()
 						switch (sub_selected){
 							case 0://Start vitashell
 								ret = sceAppMgrLoadExec("ux0:app/MLCL00001/eboot.bin", NULL, NULL);//DOESNT WORK
-								sprintf(con_data, "Starting shell: %d ", ret);
+								sprintf(con_data, "Arrancando comando: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://SYS INFO
@@ -203,7 +203,7 @@ int main()
 								for(int tries = 0; tries < 10; tries++){//Check if clicked
 									sceCtrlPeekBufferPositive(0, &pad, 1);
 									
-									sprintf(con_data, "Buttons(%d): %d ", tries, pad.buttons);
+									sprintf(con_data, "Botones(%d): %d ", tries, pad.buttons);
 									strcat(log_text,con_data);
 									select_menu();
 								
