@@ -90,7 +90,7 @@ int main()
 								sceKernelExitProcess(0);
 								break;
 							case 1:
-								ret = sceAppMgrLoadExec(const char "vs0:vsh/shell/shell.self", NULL, NULL);//DOESNT WORK
+								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self");//DOESNT WORK
 								sprintf(con_data, "Cargando shell.self: %d ",ret);
 								strcat(log_text,con_data);
 								select_menu();
@@ -121,7 +121,7 @@ int main()
 								strcat(log_text,con_data);
 								break;
 							case 4://Safe mode
-								ret = sceAppMgrLoadExec("os0:ue/safemode.self", NULL, NULL);//DOESNT WORK
+								ret = sceAppMgrLoadExec("os0:ue/safemode.self");//DOESNT WORK
 								sprintf(con_data, "Modo seguro: %d ", ret);
 								strcat(log_text,con_data);
 								break;
@@ -176,7 +176,7 @@ int main()
 					case 4:
 						switch (sub_selected){
 							case 0://Start vitashell
-								ret = sceAppMgrLoadExec(const char "ux0:app/VITASHELL/eboot.bin", NULL, NULL);//DOESNT WORK
+								ret = sceAppMgrLoadExec("ux0:app/VITASHELL/eboot.bin");//DOESNT WORK
 								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
