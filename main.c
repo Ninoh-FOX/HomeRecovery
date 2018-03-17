@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#include <psp2/io/dirent.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/devctl.h>
 #include <psp2/io/stat.h>
@@ -13,14 +15,16 @@
 #include <psp2/ctrl.h>
 #include <psp2/shellutil.h>
 #include <psp2/sysmodule.h>
-
-
+#include <psp2/appmgr.h>
+#include <psp2/system_param.h>
+#include <psp2/rtc.h>
+#include <vita2d.h>
 #include "graphics.h"
+#include "file.h"
 
-char menu_items[][50] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
+char menu_items[][50] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Algo mas"};
 
-char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
-
+char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -207,6 +211,59 @@ int main()
 						}
 						break;
 					case 4:
+						switch (sub_selected){
+							case 0://Copy activation
+								ret = sceIoMkdir("ux0:/Backup_act" , 0777);
+								copyFile("tm0:/npdrm/act.dat" ,"ux0:/Backup_act/act.dat");
+								copyFile("vd0:/registry/system.dreg" ,"ux0:/Backup_act/system.dreg");
+								copyFile("vd0:/registry/system.ireg" ,"ux0:/Backup_act/system.ireg");
+								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:/Backup_act/myprofile.dat");
+                                                                sprintf(con_data, "copiando archivos de activacion: %d ", ret);
+								strcat(log_text,con_data);
+								break;
+							case 1://Restore activation
+                                                                ret = copyFile("ux0:/Backup_act/act.dat" ,"tm0:/npdrm/act.dat");
+								copyFile("ux0:/Backup_act/system.dreg" ,"vd0:/registry/system.dreg");
+								copyFile("ux0:/Backup_act/system.ireg" ,"vd0:/registry/system.ireg");
+								copyFile("ux0:/Backup_act/myprofile.dat" ,"ur0:/user/00/np/myprofile.dat");
+                                                                sprintf(con_data, "restaurando archivos de activacion: %d reiniciando en 5s", ret);
+								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
+								break;
+							case 2://Copy tai config UR0
+								ret = sceIoMkdir("ur0:tai/backup" , 0777);
+                                                                copyFile("ur0:tai/config.txt" ,"ur0:tai/backup/config.txt");
+								sprintf(con_data, "Copiando configuracion ur0:tai %d ", ret);
+								strcat(log_text,con_data);
+								break;
+                                                        case 3://Restore tai config UR0
+								ret = copyFile("ur0:tai/backup/config.txt" ,"ur0:tai/config.txt");
+								sprintf(con_data, "Restaurando configuracion ur0:tai %d reiniciando en 5s", ret);
+								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
+								break;
+                                                        case 4://Copy tai config UX0
+								ret = sceIoMkdir("ux0:tai/backup" , 0777);
+                                                                copyFile("ux0:tai/config.txt" ,"ux0:tai/backup/config.txt");
+								sprintf(con_data, "Copiando configuracion ux0:tai %d ", ret);
+								strcat(log_text,con_data);
+								break;
+							case 5://Restore tai config UX0 
+								ret = copyFile("ux0:tai/backup/config.txt" ,"ux0:tai/config.txt");
+								sprintf(con_data, "Restaurando configuracion ux0:tai %d reiniciando en 5s", ret);
+								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
+								break;
+							
+						}
+						break;
+					case 5:
 						switch (sub_selected){
 							case 0://Start vitashell
 								ret = sceAppMgrLoadExec("app0:VITASHELL/eboot.bin",NULL,NULL);//DOESNT WORK
