@@ -2,12 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <psp2/io/fcntl.h>
+#include <psp2/io/devctl.h>
+#include <psp2/io/stat.h>
+#include <psp2/kernel/sysmem.h>
+#include <psp2/kernel/processmgr.h>
+#include <psp2/kernel/modulemgr.h>
 #include <psp2/types.h>
 #include <psp2/apputil.h>
-#include <psp2/kernel/processmgr.h>
 #include <psp2/ctrl.h>
-#include <psp2/io/fcntl.h>
-#include <psp2/io/stat.h>
+#include <psp2/shellutil.h>
+#include <psp2/sysmodule.h>
+
 
 #include "graphics.h"
 
