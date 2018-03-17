@@ -9,9 +9,9 @@
 
 #include "graphics.h"
 
-char menu_items[][50] = {" 	 Continuar - arranque sin cambios"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
+char menu_items[][50] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
 
-char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","Obtener informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int selected = 0;
 int sub_selected = 0;
@@ -25,7 +25,7 @@ void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("                     --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.2]--                        \n");
+	psvDebugScreenPrintf("                     --[HaiMenu  v0.5]--                        \n");
 	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREEN);
@@ -88,7 +88,7 @@ int main()
 								sceKernelExitProcess(0);
 								break;
 							case 1:
-								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self", NULL, NULL);//DOESNT WORK
+								ret = sceAppMgrLaunchApp("vs0:vsh/shell/shell.self", NULL, NULL);//DOESNT WORK
 								sprintf(con_data, "Cargando shell.self: %d ",ret);
 								strcat(log_text,con_data);
 								select_menu();
@@ -174,7 +174,7 @@ int main()
 					case 4:
 						switch (sub_selected){
 							case 0://Start vitashell
-								ret = sceAppMgrLoadExec("ux0:app/VITASHELL/eboot.bin", NULL, NULL);//DOESNT WORK
+								ret = sceAppMgrLaunchApp("ux0:app/VITASHELL/eboot.bin", NULL, NULL);//DOESNT WORK
 								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
