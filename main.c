@@ -9,9 +9,9 @@
 
 #include "graphics.h"
 
-char menu_items[][50] = {" 	 Continuar - ir a la secuencia de inicio normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
+char menu_items[][50] = {" 	 Continuar - arranque sin cambios"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Extras - Algo mas"};
 
-char menu_options [][6][26] = {  {"Normal","shell2.self"} , {"Suspender","Restaurar","IDU activo","IDU desactivado","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar config.txt de ux0:tai","Restaurar registro"} , {"Montar Memory Card","Desmontar Memory Card"} , {"Iniciar vitashell","Obtener informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","Obtener informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int selected = 0;
 int sub_selected = 0;
@@ -88,8 +88,8 @@ int main()
 								sceKernelExitProcess(0);
 								break;
 							case 1:
-								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell2.self", NULL, NULL);//DOESNT WORK
-								sprintf(con_data, "Cargando shell2.self: %d ",ret);
+								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self", NULL, NULL);//DOESNT WORK
+								sprintf(con_data, "Cargando shell.self: %d ",ret);
 								strcat(log_text,con_data);
 								select_menu();
 								break;
@@ -140,16 +140,16 @@ int main()
 								break;
 							case 2://Delete tai config
 								ret = sceIoRemove("ux0:tai/config.txt");
-								sprintf(con_data, "Borrarando configuracion ux0:tai (MCard) %d ", ret);
+								sprintf(con_data, "Borrando configuracion ux0:tai %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 3://Restore registry 
 								ret = sceIoRemove("vd0:registry/system.ireg");
-								sprintf(con_data, "Restaurando iregistry: %d ", ret);
+								sprintf(con_data, "Borrando iregistry: %d ", ret);
 								strcat(log_text,con_data);
 								
 								ret = sceIoRemove("vd0:registry/system.dreg");
-								sprintf(con_data, "Restaurando dregistry: %d ", ret);
+								sprintf(con_data, "Borrando dregistry: %d ", ret);
 								strcat(log_text,con_data);
 								
 								break;
@@ -160,12 +160,12 @@ int main()
 						switch (sub_selected){
 							case 0://Mount mem card
 								ret = _vshIoMount(0x800, NULL, 0, 0, 0, 0);
-								sprintf(con_data, "Montar Tarjeta de memoria: %d ", ret);
+								sprintf(con_data, "Montando MemCard: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Unmount mem card
 								ret = vshIoUmount(0x800, 0, 0, 0);
-								sprintf(con_data, "Desmontar Tarjeta de memoria: %d ", ret);
+								sprintf(con_data, "Desmontando MemCard: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							
@@ -174,8 +174,8 @@ int main()
 					case 4:
 						switch (sub_selected){
 							case 0://Start vitashell
-								ret = sceAppMgrLoadExec("ux0:app/MLCL00001/eboot.bin", NULL, NULL);//DOESNT WORK
-								sprintf(con_data, "Arrancando comando: %d ", ret);
+								ret = sceAppMgrLoadExec("ux0:app/VITASHELL/eboot.bin", NULL, NULL);//DOESNT WORK
+								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://SYS INFO
