@@ -155,7 +155,12 @@ int main()
 								sprintf(con_data, "Borrando configuracion ux0:tai %d ", ret);
 								strcat(log_text,con_data);
 								break;
-							case 3://Restore registry 
+					                case 3://Delete tai config UR0
+								ret = sceIoRemove("ur0:tai/config.txt");
+								sprintf(con_data, "Borrando configuracion ur0:tai %d ", ret);
+								strcat(log_text,con_data);
+								break;
+							case 4://Restore registry 
 								ret = sceIoRemove("vd0:registry/system.ireg");
 								sprintf(con_data, "Borrando iregistry: %d ", ret);
 								strcat(log_text,con_data);
