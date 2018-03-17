@@ -70,7 +70,7 @@ int main()
 	int found = 0;// /shrug
 	for(int tries = 0; tries < 30; tries++){//Check if clicked
 		sceCtrlPeekBufferPositive(0, &pad, 1);
-		if (pad.buttons == SCE_CTRL_RTRIGGER || pad.buttons == SCE_CTRL_LTRIGGER || pad.buttons == SCE_CTRL_L1 || pad.buttons == SCE_CTRL_R1 ) {
+		if (pad.buttons == SCE_CTRL_RTRIGGER || pad.buttons == SCE_CTRL_R1 ) {
 			found = 1;
 			break;
 		}
@@ -142,23 +142,32 @@ int main()
 						switch (sub_selected){
 							case 0://Delete id.dat
 								ret = sceIoRemove("ux0:/id.dat");
-								sprintf(con_data, "Borrar id.dat: %d ", ret);
+								sprintf(con_data, "Borrado id.dat: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Delete act.dat
 								ret = sceIoRemove("tm0:npdrm/act.dat");
-								sprintf(con_data, "Borrar act.dat: %d ", ret);
+								sprintf(con_data, "Borrando act.dat: %d reiniciando en 5s", ret);
 								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
 								break;
-							case 2://Delete tai config
+							case 2://Delete tai config UX0
 								ret = sceIoRemove("ux0:tai/config.txt");
-								sprintf(con_data, "Borrando configuracion ux0:tai %d ", ret);
+								sprintf(con_data, "Borrando configuracion ux0:tai %d reiniciando en 5s", ret);
 								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
 								break;
 					                case 3://Delete tai config UR0
 								ret = sceIoRemove("ur0:tai/config.txt");
-								sprintf(con_data, "Borrando configuracion ur0:tai %d ", ret);
+								sprintf(con_data, "Borrando configuracion ur0:tai %d reiniciando en 5s", ret);
 								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
 								break;
 							case 4://Restore registry 
 								ret = sceIoRemove("vd0:registry/system.ireg");
@@ -166,8 +175,11 @@ int main()
 								strcat(log_text,con_data);
 								
 								ret = sceIoRemove("vd0:registry/system.dreg");
-								sprintf(con_data, "Borrando dregistry: %d ", ret);
+								sprintf(con_data, "Borrando dregistry: %d reiniciando en 5s", ret);
 								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
 								
 								break;
 							
