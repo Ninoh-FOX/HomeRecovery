@@ -1,7 +1,7 @@
 TARGET = homerecovery
 OBJS   = main.o font.o graphics.o
 
-LIBS = -lSceCtrl_stub -lSceDisplay_stub -lScePower_stub -lSceVshBridge_stub -lSceAppMgr_stub -lSceRegistryMgr_stub
+LIBS = -lSceIofilemgr_stub -lSceKernelThreadMgr_stub -lSceCommonDialog_stub -lSceDisplay_stub -lSceGxm_stub -lvita2d -lfreetype -lSceShellSvc_stub -lScePgf_stub -lSceSysmodule_stub -lSceAppUtil_stub -lSceCtrl_stub -lScePower_stub -lSceVshBridge_stub -lSceAppMgr_stub -lSceRegistryMgr_stub
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
