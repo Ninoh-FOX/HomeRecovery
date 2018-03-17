@@ -16,7 +16,7 @@ char menu_items[][50] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en
 char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 
-int sceAppMgrLoadExec(const char *patch);
+int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
 int scePowerRequestColdReset();
 int vshSysconIduModeSet();
@@ -100,7 +100,7 @@ int main()
 								sceKernelExitProcess(0);
 								break;
 							case 1:
-								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self");//DOESNT WORK
+								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self",NULL,NULL);//DOESNT WORK
 								sprintf(con_data, "Cargando shell.self: %d ",ret);
 								strcat(log_text,con_data);
 								select_menu();
@@ -131,7 +131,7 @@ int main()
 								strcat(log_text,con_data);
 								break;
 							case 4://Safe mode
-								ret = sceAppMgrLoadExec("os0:ue/safemode.self");//DOESNT WORK
+								ret = sceAppMgrLoadExec("os0:ue/safemode.self",NULL,NULL);//DOESNT WORK
 								sprintf(con_data, "Modo seguro: %d ", ret);
 								strcat(log_text,con_data);
 								break;
@@ -186,7 +186,7 @@ int main()
 					case 4:
 						switch (sub_selected){
 							case 0://Start vitashell
-								ret = sceAppMgrLoadExec("ux0:app/VITASHELL/eboot.bin");//DOESNT WORK
+								ret = sceAppMgrLoadExec("app0:/VITASHELL/eboot.bin",NULL,NULL);//DOESNT WORK
 								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
