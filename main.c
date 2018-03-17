@@ -15,6 +15,16 @@ char menu_items[][50] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en
 
 char menu_options [][6][26] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
+
+int sceAppMgrLoadExec(const char *patch);
+int scePowerRequestSuspend();
+int scePowerRequestColdReset();
+int vshSysconIduModeSet();
+int vshSysconIduModeClear();
+int _vshIoMount();
+int vshIoUmount();
+int _vshSblAimgrGetConsoleId();
+int sceRegMgrGetKeyStr();
 int selected = 0;
 int sub_selected = 0;
 int item_count = 5;
@@ -34,7 +44,7 @@ void select_menu(){
 	
 	for(i = 0; i < item_count; i++){
 		if(selected==i){
-			psvDebugScreenSetFgColor(COLOR_CYAN);
+			psvDebugScreenSetFgColor(COLOR_YELLOW);
 		}
 		
 		psvDebugScreenPrintf("%s\n", menu_items[i]);
