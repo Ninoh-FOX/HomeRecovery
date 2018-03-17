@@ -186,7 +186,7 @@ int main()
 					case 4:
 						switch (sub_selected){
 							case 0://Start vitashell
-								ret = sceAppMgrLoadExec("app0:/VITASHELL/eboot.bin",NULL,NULL);//DOESNT WORK
+								ret = sceAppMgrLoadExec("app0:VITASHELL/eboot.bin",NULL,NULL);//DOESNT WORK
 								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
