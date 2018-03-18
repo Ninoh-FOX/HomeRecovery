@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 
 #include <psp2/io/dirent.h>
@@ -20,13 +21,14 @@
 #include <psp2/system_param.h>
 #include <psp2/rtc.h>
 #include <psp2/touch.h>
+#include <psp2/display.h>
 #include <vita2d.h>
 #include "graphics.h"
 #include "file.h"
 
-char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Algo mas"};
+char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","Molecular a NEAR","Restaurar NEAR","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -42,6 +44,8 @@ int sub_selected = 0;
 int item_count = 6;
 int i;
 int pressed;
+int WriteFile();
+int mount();
 
 char log_text[800];
 
@@ -49,7 +53,7 @@ void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.5]--            EOL.net      \n");
+	psvDebugScreenPrintf("                     --[HaiMenu  v0.9]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREEN);
@@ -296,7 +300,65 @@ int main()
 								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
 								strcat(log_text,con_data);
 								break;
-							case 1://SYS INFO
+							case 1://Molecular to Near
+                                                                ret = mount(); {if (doesDirExist("ux0:/app/MLCL00001")) {{for (i = 0; i < 15; i++) {
+		                                                printf("Desmintando particiones...\n");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf("Montando particiones en modo escritura...\n");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }
+                                                                }
+                                                                sceIoMkdir("vs0:/app/NPXS10000/MLCL" , 0777);
+                                                                sceIoRemove("ux0:/backup_NEAR");
+                                                                sceIoMkdir("ux0:/backup_NEAR" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/MOLECULAR" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/NEAR" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/DB" , 0777);
+                                                                            
+                                                                copyFile("ux0:/app/MLCL00001/eboot.bin" ,"ux0:/backup_NEAR/MOLECULAR/eboot.bin");
+                                                                copyFile("vs0:/app/NPXS10000/eboot.bin" ,"ux0:/backup_NEAR/NEAR/eboot.bin");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/icon0.png" ,"ux0:/backup_NEAR/MOLECULAR/icon0.png");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/icon0.png" ,"ux0:/backup_NEAR/NEAR/icon0.png");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/bg.png" ,"ux0:/backup_NEAR/MOLECULAR/bg.png");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/install_button.png" ,"ux0:/backup_NEAR/MOLECULAR/install_button.png");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/startup.png" ,"ux0:/backup_NEAR/MOLECULAR/startup.png");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/template.xml" ,"ux0:/backup_NEAR/MOLECULAR/template.xml");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml" ,"ux0:/backup_NEAR/NEAR/template.xml");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/pic0.png" ,"ux0:/backup_NEAR/pic0.png");
+
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/bg.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/bg.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/install_button.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/install_button.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/startup.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/startup.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
+	                                                        copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
+	                                                        sceIoRemove("ur0:shell/db/app.db");
+                                                                copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                sceIoRemove("ux0:iconlayout.ini");
+                                                                sceIoRename("ux0:/app/MLCL00001" , "ux0:/app/BLCL00001");
+                                                                
+                                                                
+                                                                strcpy(log_text,"");
+                                                                select_menu();
+	                                                        printf("\n\nHecho!! Reiniciando en 5s..." , ret);
+								strcat(log_text,con_data);
+                                                                sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset(0);}
+                                                                else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECUAR a NEAR!!\n");
+								strcat(log_text,con_data); }
+                                                                else
+                                                                {sprintf(con_data, "No tienes molecular shell instalado... :(  \n");
+								strcat(log_text,con_data); }
+	                                                        }
+                                                                break;
+
+                                                        case 2://Near restore
+
+                                                        
+							case 3://SYS INFO
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
@@ -317,7 +379,7 @@ int main()
 								break;
 								
 								
-							case 2:
+							case 4:
 								for(int tries = 0; tries < 10; tries++){//Check if clicked
 									sceCtrlPeekBufferPositive(0, &pad, 1);
 									
@@ -328,7 +390,7 @@ int main()
 									sceKernelDelayThread(1 * 1000 * 1000);
 								}
 								break;
-							case 3:
+							case 5:
 								strcpy(log_text,"");
 								break;
 							
