@@ -310,6 +310,11 @@ int main()
 	                                                        }
                                                                 }
                                                                 sceIoMkdir("vs0:/app/NPXS10000/MLCL" , 0777);
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/startup.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
@@ -327,6 +332,7 @@ int main()
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
                                                                 sceIoRmdir("ux0:/backup_NEAR/NEAR");
@@ -337,8 +343,15 @@ int main()
                                                                 sceIoMkdir("ux0:/backup_NEAR/NEAR" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/DB" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/MOLECULAR/livearea" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0" , 0777);
                                                                             
-                                                                copyFile("ux0:/app/MLCL00001/eboot.bin" ,"ux0:/backup_NEAR/MOLECULAR/eboot.bin");
+                                                                copyFile("ur0:/appmeta/MLCL00001/icon0.png" ,"ux0:/backup_NEAR/MOLECULAR/livearea/ur0/icon0.png");
+                                                                copyFile("ur0:/appmeta/MLCL00001/livearea/contents/template.xml" ,"ux0:/backup_NEAR/MOLECULAR/livearea/ur0/template.xml");
+                                                                copyFile("ur0:/appmeta/MLCL00001/livearea/contents/bg.png" ,"ux0:/backup_NEAR/MOLECULAR/livearea/ur0/bg.png");
+                                                                copyFile("ur0:/appmeta/MLCL00001/livearea/contents/install_button.png" ,"ux0:/backup_NEAR/MOLECULAR/livearea/ur0/install_button.png");
+                                                                copyFile("ur0:/appmeta/MLCL00001/livearea/contents/startup.png" ,"ux0:/backup_NEAR/MOLECULAR/livearea/ur0/startup.png");
+                                                                
+								copyFile("ux0:/app/MLCL00001/eboot.bin" ,"ux0:/backup_NEAR/MOLECULAR/eboot.bin");
                                                                 copyFile("vs0:/app/NPXS10000/eboot.bin" ,"ux0:/backup_NEAR/NEAR/eboot.bin");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/icon0.png" ,"ux0:/backup_NEAR/MOLECULAR/icon0.png");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/param.sfo" ,"ux0:/backup_NEAR/MOLECULAR/param.sfo");
@@ -425,7 +438,18 @@ int main()
                                                                 sceIoRename("ux0:/app/BLCL00001" , "ux0:/app/MLCL00001");
                                                                 sceIoMkdir("ux0:/app/MLCL00001/sce_sys/livearea", 0777);
                                                                 sceIoMkdir("ux0:/app/MLCL00001/sce_sys/livearea/contents", 0777);
-                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin","ux0:/app/MLCL00001/eboot.bin");
+                                                                sceIoMkdir("ur0:/appmeta/MLCL00001", 0777);
+                                                                sceIoMkdir("ur0:/appmeta/MLCL00001/livearea", 0777);
+                                                                sceIoMkdir("ur0:/appmeta/MLCL00001/livearea/contents", 0777);
+
+
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/icon0.png" ,"ur0:/appmeta/MLCL00001/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/template.xml" ,"ur0:/appmeta/MLCL00001/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/bg.png" ,"ur0:/appmeta/MLCL00001/livearea/contents/bg.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/install_button.png" ,"ur0:/appmeta/MLCL00001/livearea/contents/install_button.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/startup.png" ,"ur0:/appmeta/MLCL00001/livearea/contents/startup.png");
+                                                                
+								copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin","ux0:/app/MLCL00001/eboot.bin");
                                                                 copyFile("ux0:/backup_NEAR/NEAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/icon0.png" ,"ux0:/app/MLCL00001/sce_sys/icon0.png");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/param.sfo" ,"ux0:/app/MLCL00001/sce_sys/param.sfo");
