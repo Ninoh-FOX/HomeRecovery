@@ -358,10 +358,10 @@ int main()
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
                                                                 
                                                                 
-                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/template.xml", "ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
-                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/bg.png", "ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
-                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/install_button.png", "ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
-                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/startup.png", "ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
+                                                                copyFile("ux0:/appmeta/MLCL00001/livearea/contents/template.xml", "ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
+                                                                copyFile("ux0:/appmeta/MLCL00001/livearea/contents/bg.png", "ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
+                                                                copyFile("ux0:/appmeta/MLCL00001/livearea/contents/install_button.png", "ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
+                                                                copyFile("ux0:/appmeta/MLCL00001/livearea/contents/startup.png", "ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
                                                                 
                                                                 sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
 	                                                        copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
@@ -435,8 +435,12 @@ int main()
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/startup.png" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/startup.png");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/template.xml" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/template.xml");
                                                                 copyFile("ux0:/backup_NEAR/NEAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
-                                                                copyFile("ux0:/backup_NEAR/NEAR/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");
-                                                                
+                                                                copyFile("ux0:/backup_NEAR/NEAR/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");   
+							        copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/template.xml" ,"ux0:/appmeta/MLCL00001/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/bg.png" ,"ux0:/appmeta/MLCL00001/livearea/contents/bg.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png" ,"ux0:/appmeta/MLCL00001/livearea/contents/install_button.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/startup.png" ,"ux0:/appmeta/MLCL00001/livearea/contents/startup.png");
+
 	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
                                                                 copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.db" , "ux0:iconlayout.ini");
                                                                 sceIoRename("ur0:/appmeta/BLCL00001" ,"ur0:/appmeta/MLCL00001");
