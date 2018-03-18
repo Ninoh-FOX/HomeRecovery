@@ -19,13 +19,14 @@
 #include <psp2/appmgr.h>
 #include <psp2/system_param.h>
 #include <psp2/rtc.h>
+#include <psp2/touch.h>
 #include <vita2d.h>
 #include "graphics.h"
 #include "file.h"
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Algo mas"};
 
-char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -47,8 +48,8 @@ char log_text[800];
 void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
-	psvDebugScreenPrintf("                     --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.5]--                        \n");
+	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
+	psvDebugScreenPrintf("                     --[HaiMenu  v0.5]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREEN);
@@ -133,12 +134,12 @@ int main()
 								break;
 							case 2://IDU Enable
 								ret = vshSysconIduModeSet();
-								sprintf(con_data, "IDU activado: %d ", ret);
+								sprintf(con_data, "IDU activado: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
 							case 3://IDU Disable
 								ret = vshSysconIduModeClear();
-								sprintf(con_data, "IDU desactivado: %d ", ret);
+								sprintf(con_data, "IDU desactivado (DEMO MODE): %d \n", ret);
 								strcat(log_text,con_data);
 								break;
 							case 4://Safe mode
@@ -153,7 +154,7 @@ int main()
 						switch (sub_selected){
 							case 0://Delete id.dat
 								ret = sceIoRemove("ux0:/id.dat");
-								sprintf(con_data, "Borrado id.dat: %d ", ret);
+								sprintf(con_data, "Borrado id.dat: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Delete act.dat
@@ -182,7 +183,7 @@ int main()
 								break;
 							case 4://Restore registry 
 								ret = sceIoRemove("vd0:registry/system.ireg");
-								sprintf(con_data, "Borrando iregistry: %d ", ret);
+								sprintf(con_data, "Borrando iregistry: %d \n", ret);
 								strcat(log_text,con_data);
 								
 								ret = sceIoRemove("vd0:registry/system.dreg");
@@ -200,12 +201,12 @@ int main()
 						switch (sub_selected){
 							case 0://Mount mem card
 								ret = _vshIoMount(0x800, NULL, 0, 0, 0, 0);
-								sprintf(con_data, "Montando MemCard: %d ", ret);
+								sprintf(con_data, "Montando MemCard: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
 							case 1://Unmount mem card
 								ret = vshIoUmount(0x800, 0, 0, 0);
-								sprintf(con_data, "Desmontando MemCard: %d ", ret);
+								sprintf(con_data, "Desmontando MemCard: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
 							
@@ -223,7 +224,7 @@ int main()
 								copyFile("vd0:/registry/system.dreg" ,"ux0:/Backup_act/system.dreg");
 								copyFile("vd0:/registry/system.ireg" ,"ux0:/Backup_act/system.ireg");
 								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:/Backup_act/myprofile.dat");
-                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  ");
+                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  \n");
 								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ux0:/Backup_act" , 0777);
@@ -231,7 +232,7 @@ int main()
 								copyFile("vd0:/registry/system.dreg" ,"ux0:/Backup_act/system.dreg");
 								copyFile("vd0:/registry/system.ireg" ,"ux0:/Backup_act/system.ireg");
 								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:/Backup_act/myprofile.dat");
-                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  ");
+                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  \n");
 								strcat(log_text,con_data); }
 								break;
 							case 1://Restore activation
@@ -249,12 +250,12 @@ int main()
 								if (doesDirExist("ur0:tai/backup")) {
                                                                 sceIoRemove("ur0:tai/backup/config.txt");
                                                                 copyFile("ur0:tai/config.txt" ,"ur0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  ");
+								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  \n");
 								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ur0:tai/backup" , 0777);
                                                                 copyFile("ur0:tai/config.txt" ,"ur0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  ");
+								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  \n");
 								strcat(log_text,con_data); }
 								break;
                                                         case 3://Restore tai config UR0
@@ -269,12 +270,12 @@ int main()
 								if (doesDirExist("ux0:tai/backup")) {
                                                                 sceIoRemove("ux0:tai/backup/config.txt");
                                                                 copyFile("ux0:tai/config.txt" ,"ux0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  ");
+								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  \n");
 								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ux0:tai/backup" , 0777);
                                                                 copyFile("ux0:tai/config.txt" ,"ux0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  ");
+								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  \n");
 								strcat(log_text,con_data); }
 								break;
 							case 5://Restore tai config UX0 
@@ -299,7 +300,7 @@ int main()
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
-								strcat(log_text," ");
+								strcat(log_text," \n");
 								
 								char CID[16];
 								_vshSblAimgrGetConsoleId(CID);//CID
@@ -312,7 +313,7 @@ int main()
 								}
 								
 								
-								strcat(log_text," ");
+								strcat(log_text," \n");
 								break;
 								
 								
