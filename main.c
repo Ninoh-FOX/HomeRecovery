@@ -410,6 +410,7 @@ int main()
                                                                 }
                                                                 sceIoRmdir("vs0:/app/NPXS10000/MLCL");
                                                                 sceIoRename("ux0:/app/BLCL00001" , "ux0:/app/MLCL00001");
+                                                                sceIoMkdir("ux0:/app/MLCL00001/sce_sys/livearea", 0777);
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin","ux0:/app/MLCL00001/eboot.bin");
                                                                 copyFile("ux0:/backup_NEAR/NEAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/icon0.png" ,"ux0:/app/MLCL00001/sce_sys/icon0.png");
