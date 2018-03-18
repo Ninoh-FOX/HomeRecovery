@@ -397,6 +397,46 @@ int main()
                                                                 break;
 
                                                         case 2://Near restore
+                                                                ret = mount(); {if (doesFileExist("ux0:/backup_NEAR/NEAR/pic0.png")) {{for (i = 0; i < 15; i++) {
+		                                                printf("Desmintando particiones...\n");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf("Montando particiones en modo escritura...\n");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }
+                                                                }
+                                                                sceIoRmdir("vs0:/app/NPXS10000/MLCL");
+                                                                sceIoRename("ux0:/app/BLCL00001" , "ux0:/app/MLCL00001");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin","ux0:/app/MLCL00001/eboot.bin");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/icon0.png" ,"ux0:/app/MLCL00001/sce_sys/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/param.sfo" ,"ux0:/app/MLCL00001/sce_sys/param.sfo");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/bg.png" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/bg.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/install_button.png" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/install_button.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/startup.png" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/startup.png");
+                                                                copyFile("ux0:/backup_NEAR/MOLECULAR/template.xml" ,"ux0:/app/MLCL00001/sce_sys/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");
+                                                                
+	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
+                                                                copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.db" , "ux0:iconlayout.ini");
+                                                                sceIoRename("ur0:/appmeta/BLCL00001" ,"ur0:/appmeta/MLCL00001");
+                                                                sceIoRename("ux0:/appmeta/BLCL00001" ,"ux0:/appmeta/MLCL00001");
+                                                                strcpy(log_text,"");
+                                                                select_menu();
+	                                                        printf("\n\nRestaurado!! Reiniciando en 5s..." , ret);
+								strcat(log_text,con_data);
+                                                                sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset(0);}
+                                                                else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {
+                                                                sprintf(con_data, "Ya tienes convertido MOLECUAR a NEAR!!\n");
+								strcat(log_text,con_data); }
+                                                                else
+                                                                {sprintf(con_data, "No tienes copia de NEAR... :(  \n");
+								strcat(log_text,con_data); }
+	                                                        }
+                                                                break;
 
                                                         
 							case 3://SYS INFO
