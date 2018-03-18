@@ -310,7 +310,23 @@ int main()
 	                                                        }
                                                                 }
                                                                 sceIoMkdir("vs0:/app/NPXS10000/MLCL" , 0777);
-                                                                sceIoRemove("ux0:/backup_NEAR");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/eboot.bin");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/eboot.bin");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/startup.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/param.sfo");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
+                                                                sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
+                                                                sceIoRmdir("ux0:/backup_NEAR/NEAR");
+                                                                sceIoRmdir("ux0:/backup_NEAR/DB");
+                                                                sceIoRmdir("ux0:/backup_NEAR");
                                                                 sceIoMkdir("ux0:/backup_NEAR" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/MOLECULAR" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/NEAR" , 0777);
@@ -319,13 +335,14 @@ int main()
                                                                 copyFile("ux0:/app/MLCL00001/eboot.bin" ,"ux0:/backup_NEAR/MOLECULAR/eboot.bin");
                                                                 copyFile("vs0:/app/NPXS10000/eboot.bin" ,"ux0:/backup_NEAR/NEAR/eboot.bin");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/icon0.png" ,"ux0:/backup_NEAR/MOLECULAR/icon0.png");
+                                                                copyFile("ux0:/app/MLCL00001/sce_sys/param.sfo" ,"ux0:/backup_NEAR/MOLECULAR/param.sfo");
                                                                 copyFile("vs0:/app/NPXS10000/sce_sys/icon0.png" ,"ux0:/backup_NEAR/NEAR/icon0.png");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/bg.png" ,"ux0:/backup_NEAR/MOLECULAR/bg.png");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/install_button.png" ,"ux0:/backup_NEAR/MOLECULAR/install_button.png");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/startup.png" ,"ux0:/backup_NEAR/MOLECULAR/startup.png");
                                                                 copyFile("ux0:/app/MLCL00001/sce_sys/livearea/contents/template.xml" ,"ux0:/backup_NEAR/MOLECULAR/template.xml");
                                                                 copyFile("vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml" ,"ux0:/backup_NEAR/NEAR/template.xml");
-                                                                copyFile("vs0:/app/NPXS10000/sce_sys/pic0.png" ,"ux0:/backup_NEAR/pic0.png");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/pic0.png" ,"ux0:/backup_NEAR/NEAR/pic0.png");
 
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
@@ -339,8 +356,32 @@ int main()
                                                                 copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.db");
                                                                 sceIoRemove("ux0:iconlayout.ini");
                                                                 sceIoRename("ux0:/app/MLCL00001" , "ux0:/app/BLCL00001");
-                                                                
-                                                                
+                                                                sceIoRemove("ux0:/app/BLCL00001/eboot.bin");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/icon0.png");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/param.sfo");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/livearea/contents/template.xml");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/livearea/contents/bg.png");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/livearea/contents/install_button.png");
+                                                                sceIoRemove("ux0:/app/BLCL00001/sce_sys/livearea/contents/startup.png");
+                                                                sceIoRmdir("ux0:/app/BLCL00001/sce_sys/livearea/contents");
+                                                                sceIoRmdir("ux0:/app/BLCL00001/sce_sys/livearea");
+                                                                sceIoRemove("ur0:/appmeta/MLCL00001/icon0.png");
+                                                                sceIoRemove("ur0:/appmeta/MLCL00001/livearea/contents/template.xml");
+                                                                sceIoRemove("ur0:/appmeta/MLCL00001/livearea/contents/bg.png");
+                                                                sceIoRemove("ur0:/appmeta/MLCL00001/livearea/contents/install_button.png");
+                                                                sceIoRemove("ur0:/appmeta/MLCL00001/livearea/contents/startup.png");
+                                                                sceIoRmdir("ur0:/appmeta/MLCL00001/livearea/contents");
+                                                                sceIoRmdir("ur0:/appmeta/MLCL00001/livearea");
+                                                                sceIoRmdir("ur0:/appmeta/MLCL00001");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/template.xml");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/bg.png");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/install_button.png");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/startup.png");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/sce_pfs/files.db");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/sce_pfs/icv.db/*.icv");
+                                                                sceIoRmdir("ux0:/appmeta/MLCL00001/sce_pfs/icv.db");
+                                                                sceIoRmdir("ux0:/appmeta/MLCL00001/sce_pfs");
+                                                                sceIoRmdir("ux0:/appmeta/MLCL00001");
                                                                 strcpy(log_text,"");
                                                                 select_menu();
 	                                                        printf("\n\nHecho!! Reiniciando en 5s..." , ret);
