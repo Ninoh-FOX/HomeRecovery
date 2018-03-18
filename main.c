@@ -107,7 +107,7 @@ int main()
 								sprintf(con_data, "Continuando arranque... ");
 								strcat(log_text,con_data);
 								select_menu();
-								sceKernelDelayThread(1 * 1000 * 1000);
+								sceKernelDelayThread(2 * 1000 * 1000);
 								sceKernelExitProcess(0);
 								break;
 							case 1:
@@ -219,14 +219,19 @@ int main()
                                                                 sceIoRemove("ux0:/Backup_act/system.dreg"); 
                                                                 sceIoRemove("ux0:/Backup_act/system.ireg"); 
                                                                 sceIoRemove("ux0:/Backup_act/myprofile.dat");
-                                                                sceIoRmdir("ux0:/Backup_act");  } 
+                                                                copyFile("tm0:/npdrm/act.dat" ,"ux0:/Backup_act/act.dat");
+								copyFile("vd0:/registry/system.dreg" ,"ux0:/Backup_act/system.dreg");
+								copyFile("vd0:/registry/system.ireg" ,"ux0:/Backup_act/system.ireg");
+								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:/Backup_act/myprofile.dat");
+                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  ");
+								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ux0:/Backup_act" , 0777);
 								copyFile("tm0:/npdrm/act.dat" ,"ux0:/Backup_act/act.dat");
 								copyFile("vd0:/registry/system.dreg" ,"ux0:/Backup_act/system.dreg");
 								copyFile("vd0:/registry/system.ireg" ,"ux0:/Backup_act/system.ireg");
 								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:/Backup_act/myprofile.dat");
-                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD");
+                                                                sprintf(con_data, "Copiando archivos de activacion: OK! XD  ");
 								strcat(log_text,con_data); }
 								break;
 							case 1://Restore activation
@@ -243,11 +248,13 @@ int main()
 							case 2://Copy tai config UR0
 								if (doesDirExist("ur0:tai/backup")) {
                                                                 sceIoRemove("ur0:tai/backup/config.txt");
-                                                                sceIoRmdir("ur0:tai/backup"); } 
+                                                                copyFile("ur0:tai/config.txt" ,"ur0:tai/backup/config.txt");
+								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  ");
+								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ur0:tai/backup" , 0777);
                                                                 copyFile("ur0:tai/config.txt" ,"ur0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD ");
+								sprintf(con_data, "Copiando configuracion ur0:tai : Ok! XD  ");
 								strcat(log_text,con_data); }
 								break;
                                                         case 3://Restore tai config UR0
@@ -261,11 +268,13 @@ int main()
                                                         case 4://Copy tai config UX0
 								if (doesDirExist("ux0:tai/backup")) {
                                                                 sceIoRemove("ux0:tai/backup/config.txt");
-                                                                sceIoRmdir("ux0:tai/backup"); } 
+                                                                copyFile("ux0:tai/config.txt" ,"ux0:tai/backup/config.txt");
+								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  ");
+								strcat(log_text,con_data); } 
                                                                 else 
                                                                 { sceIoMkdir("ux0:tai/backup" , 0777);
                                                                 copyFile("ux0:tai/config.txt" ,"ux0:tai/backup/config.txt");
-								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD ");
+								sprintf(con_data, "Copiando configuracion ux0:tai : Ok! XD  ");
 								strcat(log_text,con_data); }
 								break;
 							case 5://Restore tai config UX0 
