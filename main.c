@@ -429,8 +429,8 @@ int main()
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset(0);}
-                                                                else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {
-                                                                sprintf(con_data, "Ya tienes convertido MOLECUAR a NEAR!!\n");
+                                                                else if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
+                                                                sprintf(con_data, "Ya tienes NEAR original!!...\n");
 								strcat(log_text,con_data); }
                                                                 else
                                                                 {sprintf(con_data, "No tienes copia de NEAR... :(  \n");
