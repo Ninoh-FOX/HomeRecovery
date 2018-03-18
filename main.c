@@ -310,6 +310,10 @@ int main()
 	                                                        }
                                                                 }
                                                                 sceIoMkdir("vs0:/app/NPXS10000/MLCL" , 0777);
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/eboot.bin");
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/eboot.bin");
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/icon0.png");
@@ -323,6 +327,7 @@ int main()
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
                                                                 sceIoRmdir("ux0:/backup_NEAR/NEAR");
                                                                 sceIoRmdir("ux0:/backup_NEAR/DB");
@@ -331,6 +336,7 @@ int main()
                                                                 sceIoMkdir("ux0:/backup_NEAR/MOLECULAR" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/NEAR" , 0777);
                                                                 sceIoMkdir("ux0:/backup_NEAR/DB" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/MOLECULAR/livearea" , 0777);
                                                                             
                                                                 copyFile("ux0:/app/MLCL00001/eboot.bin" ,"ux0:/backup_NEAR/MOLECULAR/eboot.bin");
                                                                 copyFile("vs0:/app/NPXS10000/eboot.bin" ,"ux0:/backup_NEAR/NEAR/eboot.bin");
@@ -350,6 +356,13 @@ int main()
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/install_button.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/install_button.png");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/startup.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/startup.png");
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                
+                                                                
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/template.xml", "ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/bg.png", "ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/install_button.png", "ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
+                                                                sceIoRemove("ux0:/appmeta/MLCL00001/livearea/contents/startup.png", "ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
+                                                                
                                                                 sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
 	                                                        copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
 	                                                        sceIoRemove("ur0:shell/db/app.db");
@@ -400,7 +413,7 @@ int main()
                                                                 ret = mount(); {if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
                                                                 sprintf(con_data, "Ya tienes NEAR original!!...\n");
 								strcat(log_text,con_data); }
-                                                                else if (doesFileExist("ux0:/backup_NEAR/NEAR/pic0.png")) {{for (i = 0; i < 15; i++) {
+                                                                else if (doesDirExist("ux0:/backup_NEAR/NEAR")) {{for (i = 0; i < 15; i++) {
 		                                                printf("Desmintando particiones...\n");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
