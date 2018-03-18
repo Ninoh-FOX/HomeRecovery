@@ -6,7 +6,7 @@ Remember this can be a dangerous process see notes for more info.
 
 Copy the .self in vs0:tai/ and type in (ur0:tai/boot_config.txt) with "-spawnwait vs0:tai/homerecovery.self". You need vitaRW.apk for copy the files in vs0 only one time.
 
-![what the menu looks like](http://i.imgur.com/0XvG4LQ.jpg "The Menu")
+![what the menu looks like](https://fotos.subefotos.com/6460fb0313ce58757add98669831e18bo.jpg "The Menu")
 
 # Usage
 Press right trigger on boot while the grey screen is visible
