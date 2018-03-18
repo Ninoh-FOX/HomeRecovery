@@ -1,4 +1,4 @@
-# HomeRecovery
+# HomeRecovery EOL for 3.65 enso
 Ps Vita Recovery Adaptor using enso 3.50!!
 
 # Install
