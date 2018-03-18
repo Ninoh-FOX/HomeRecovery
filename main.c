@@ -397,7 +397,10 @@ int main()
                                                                 break;
 
                                                         case 2://Near restore
-                                                                ret = mount(); {if (doesFileExist("ux0:/backup_NEAR/NEAR/pic0.png")) {{for (i = 0; i < 15; i++) {
+                                                                ret = mount(); {if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
+                                                                sprintf(con_data, "Ya tienes NEAR original!!...\n");
+								strcat(log_text,con_data); }
+                                                                else if (doesFileExist("ux0:/backup_NEAR/NEAR/pic0.png")) {{for (i = 0; i < 15; i++) {
 		                                                printf("Desmintando particiones...\n");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
@@ -429,9 +432,6 @@ int main()
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset(0);}
-                                                                else if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
-                                                                sprintf(con_data, "Ya tienes NEAR original!!...\n");
-								strcat(log_text,con_data); }
                                                                 else
                                                                 {sprintf(con_data, "No tienes copia de NEAR... :(  \n");
 								strcat(log_text,con_data); }
