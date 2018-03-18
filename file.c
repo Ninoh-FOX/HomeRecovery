@@ -1,6 +1,20 @@
 #include "file.h"
 #include "graphics.h"
 
+int WriteFile(char *file, void *buf, int size) {
+        buf = malloc(0x100);
+	SceUID fd = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
+	if (fd < 0)
+		return fd;
+
+	int written = sceIoWrite(fd, buf, size);
+
+	sceIoClose(fd);
+	return written;
+}
+
+int mount(int argc, char *argv[]) {return 0;}
+
 int doesFileExist(const char* path) { 
 	SceUID dir = sceIoOpen(path, SCE_O_RDONLY, 0777); 
  	if (dir >= 0) { 
