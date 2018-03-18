@@ -11,6 +11,12 @@ Copy the .self in vs0:tai/ and type in (ur0:tai/boot_config.txt) with "-spawnwai
 # Usage
 Press right trigger on boot while the grey screen is visible
 
+# Releases
+
+v0.9: Now you can replace NEAR® with MolecularShell, create a backup in the process and restore to the previous state if necessary.
+
+v0.5: Now you can make backups and restores of the activation files or the Tai config.txt files.
+
 # Notes
 This could also be used as a normal untility app
 While this could help recover your vita it is still a risk to install and if done incorrectly could stop you booting into the shell, install at your own risk!
