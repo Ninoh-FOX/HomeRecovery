@@ -1,9 +1,8 @@
+#include <vitasdk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-
-
 #include <psp2/io/dirent.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/devctl.h>
@@ -22,6 +21,7 @@
 #include <psp2/rtc.h>
 #include <psp2/touch.h>
 #include <psp2/display.h>
+#include <psp2/power.h>
 #include <vita2d.h>
 #include <taihen.h>
 #include "graphics.h"
@@ -414,7 +414,7 @@ int main()
 	                                                        printf("\n\nHecho!! Reiniciando en 5s..." , ret);
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
-	                                                        scePowerRequestColdReset(0);}
+	                                                        scePowerRequestColdReset();}
                                                                 else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECUAR a NEAR!!\n");
 								strcat(log_text,con_data); }
                                                                 else
@@ -476,7 +476,7 @@ int main()
 	                                                        printf("\n\nRestaurado!! Reiniciando en 5s..." , ret);
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
-	                                                        scePowerRequestColdReset(0);}
+	                                                        scePowerRequestColdReset();}
                                                                 else
                                                                 {sprintf(con_data, "No tienes copia de NEAR... :(  \n");
 								strcat(log_text,con_data); }
@@ -497,7 +497,7 @@ int main()
 								copyFile("ux0:/app/VITASHELL/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
 								printf("\n\nHecho!!! Reiniciando en 5s \n"); 
 								sceKernelDelayThread(6 * 1000 * 1000);
-	                                                        scePowerRequestColdReset(0);
+	                                                        scePowerRequestColdReset();
 								strcat(log_text,con_data); }
                                                                 else
                                                                 {sprintf(con_data, "Has primero la copia de Molecular a NEAR... :(  \n");
