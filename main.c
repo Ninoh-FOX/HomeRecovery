@@ -79,7 +79,7 @@ void select_menu(){
 int main()
 {
 	psvDebugScreenInit();
-	psvDebugScreenClear(0x333333);
+	psvDebugScreenClear(0x0f0f0f0f);
 	SceCtrlData pad;
 	int ret;
 	char con_data[128];
