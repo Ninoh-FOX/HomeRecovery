@@ -494,7 +494,7 @@ int main()
 								}}
 								strcpy(log_text,"");
 								copyFile("ux0:/app/VITASHELL/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
-								printf("n\n\Hecho!!! Reiniciando en 5s \n"); 
+								printf("\n\nHecho!!! Reiniciando en 5s \n"); 
 								sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset(0);
 								strcat(log_text,con_data); }
