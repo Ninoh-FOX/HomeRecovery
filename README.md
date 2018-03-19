@@ -13,6 +13,8 @@ Press right trigger on boot while the grey screen is visible
 
 # Releases
 
+v0.92: only clean the code.
+
 v0.91: Added the option to inject Vitashell after making the copy of Molecular. Corrected graphic failures in the processes.
                                             
 v0.9: Now you can replace NEAR® with MolecularShell, create a backup in the process and restore to the previous state if necessary.
