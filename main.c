@@ -493,7 +493,7 @@ int main()
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
-								strcat(log_text," \n");
+								strcat(log_text," \n\n");
 								
 								char CID[16];
 								_vshSblAimgrGetConsoleId(CID);//CID
