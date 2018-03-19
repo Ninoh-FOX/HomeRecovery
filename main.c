@@ -28,7 +28,7 @@
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","Molecular a NEAR","Restaurar NEAR","informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","Molecular a NEAR","Restaurar NEAR","Cambiar MLCL por VITASHELL","informacion del sistema","Testear botones","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -53,7 +53,7 @@ void select_menu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu  v0.9]--            EOL.net      \n");
+	psvDebugScreenPrintf("                     --[HaiMenu v0.91]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_RED);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREEN);
@@ -301,11 +301,11 @@ int main()
 								strcat(log_text,con_data);
 								break;
 							case 1://Molecular to Near
-                                                                ret = mount(); {if (doesDirExist("ux0:/app/MLCL00001")) {{for (i = 0; i < 15; i++) {
-		                                                printf("Desmintando particiones...\n");
+                                                                ret = mount(); {if (doesDirExist("ux0:/app/MLCL00001")) {printf("Cambiando NEAR y haciendo copia \n");{for (i = 0; i < 15; i++) {
+		                                                printf(".");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
-		                                                printf("Montando particiones en modo escritura...\n");
+		                                                printf(".");
 		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
 	                                                        }
                                                                 }
@@ -426,11 +426,12 @@ int main()
                                                                 ret = mount(); {if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
                                                                 sprintf(con_data, "Ya tienes NEAR original!!...\n");
 								strcat(log_text,con_data); }
-                                                                else if (doesDirExist("ux0:/backup_NEAR/NEAR")) {{for (i = 0; i < 15; i++) {
-		                                                printf("Desmintando particiones...\n");
+                                                                else if (doesDirExist("ux0:/backup_NEAR/NEAR")) {printf("Restaurando NEAR \n");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
-		                                                printf("Montando particiones en modo escritura...\n");
+		                                                printf(".");
 		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
 	                                                        }
                                                                 }
@@ -482,7 +483,28 @@ int main()
                                                                 break;
 
                                                         
-							case 3://SYS INFO
+							case 3://Molecular x Vitashell
+							        if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {
+							        printf("cambiando MOLECULAR por VITASHELL!! XD \n");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+								vshIoUmount(i * 0x100, 0, 0, 0);
+								printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100));
+								}}
+								strcpy(log_text,"");
+								copyFile("ux0:/app/VITASHELL/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+								printf("n\n\Hecho!!! Reiniciando en 5s \n"); 
+								sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset(0);
+								strcat(log_text,con_data); }
+                                                                else
+                                                                {sprintf(con_data, "Has primero la copia de Molecular a NEAR... :(  \n");
+								strcat(log_text,con_data);
+	                                                        }
+                                                                break;
+							
+							case 4://SYS INFO
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
@@ -503,7 +525,7 @@ int main()
 								break;
 								
 								
-							case 4:
+							case 5:
 								for(int tries = 0; tries < 10; tries++){//Check if clicked
 									sceCtrlPeekBufferPositive(0, &pad, 1);
 									
@@ -514,7 +536,7 @@ int main()
 									sceKernelDelayThread(1 * 1000 * 1000);
 								}
 								break;
-							case 5:
+							case 6:
 								strcpy(log_text,"");
 								break;
 							
