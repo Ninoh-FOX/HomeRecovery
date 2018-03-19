@@ -29,7 +29,7 @@
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"Normal","shell.self"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)","Modo Seguro"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Iniciar vitashell","Molecular a NEAR","Restaurar NEAR","Cambiar MLCL por VITASHELL","informacion del sistema","Testear botones","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"salir"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -51,13 +51,13 @@ int mount();
 char log_text[800];
 
 void select_menu(){
-	psvDebugScreenClear(COLOR_BLACK);
+	psvDebugScreenClear(0x00000000);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu v0.91]--            EOL.net      \n");
-	psvDebugScreenSetFgColor(COLOR_RED);
+	psvDebugScreenPrintf("                     --[HaiMenu v0.92]--            EOL.net      \n");
+	psvDebugScreenSetFgColor(COLOR_GREY);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
-	psvDebugScreenSetFgColor(COLOR_GREEN);
+	psvDebugScreenSetFgColor(COLOR_GREY);
 	
 	for(i = 0; i < item_count; i++){
 		if(selected==i){
@@ -65,10 +65,10 @@ void select_menu(){
 		}
 		
 		psvDebugScreenPrintf("%s\n", menu_items[i]);
-		psvDebugScreenSetFgColor(COLOR_WHITE);
+		psvDebugScreenSetFgColor(COLOR_GREY);
 	}
 	
-	psvDebugScreenSetFgColor(COLOR_CYAN);
+	psvDebugScreenSetFgColor(COLOR_GREY);
 	psvDebugScreenPrintf("\n\nLog:\n\n%s",log_text);
 	
 	if(strlen(log_text) > 780 ){
@@ -116,12 +116,6 @@ int main()
 								sceKernelDelayThread(2 * 1000 * 1000);
 								sceKernelExitProcess(0);
 								break;
-							case 1:
-								ret = sceAppMgrLoadExec("vs0:vsh/shell/shell.self",NULL,NULL);//DOESNT WORK
-								sprintf(con_data, "Cargando shell.self: %d ",ret);
-								strcat(log_text,con_data);
-								select_menu();
-								break;
 						}
 						break;
 						
@@ -145,11 +139,6 @@ int main()
 							case 3://IDU Disable
 								ret = vshSysconIduModeClear();
 								sprintf(con_data, "IDU desactivado (DEMO MODE): %d \n", ret);
-								strcat(log_text,con_data);
-								break;
-							case 4://Safe mode
-								ret = sceAppMgrLoadExec("os0:ue/safemode.self",NULL,NULL);//DOESNT WORK
-								sprintf(con_data, "Modo seguro: %d ", ret);
 								strcat(log_text,con_data);
 								break;
 							
@@ -296,12 +285,7 @@ int main()
 						break;
 					case 5:
 						switch (sub_selected){
-							case 0://Start vitashell
-								ret = sceAppMgrLoadExec("app0:VITASHELL/eboot.bin",NULL,NULL);//DOESNT WORK
-								sprintf(con_data, "Cargando VITASHELL: %d ", ret);
-								strcat(log_text,con_data);
-								break;
-							case 1://Molecular to Near
+							case 0://Molecular to Near
                                                                 ret = mount(); {if (doesDirExist("ux0:/app/MLCL00001")) {printf("Cambiando NEAR y haciendo copia \n");{for (i = 0; i < 15; i++) {
 		                                                printf(".");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -423,7 +407,7 @@ int main()
 	                                                        }
                                                                 break;
 
-                                                        case 2://Near restore
+                                                        case 1://Near restore
                                                                 ret = mount(); {if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
                                                                 sprintf(con_data, "Ya tienes NEAR original!!...\n");
 								strcat(log_text,con_data); }
@@ -484,7 +468,7 @@ int main()
                                                                 break;
 
                                                         
-							case 3://Molecular x Vitashell
+							case 2://Molecular x Vitashell
 							        if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {
 							        printf("cambiando MOLECULAR por VITASHELL!! XD \n");
 								{for (i = 0; i < 15; i++) {
@@ -505,7 +489,7 @@ int main()
 	                                                        }
                                                                 break;
 							
-							case 4://SYS INFO
+							case 3://SYS INFO
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
@@ -525,19 +509,7 @@ int main()
 								strcat(log_text," \n");
 								break;
 								
-								
-							case 5:
-								for(int tries = 0; tries < 10; tries++){//Check if clicked
-									sceCtrlPeekBufferPositive(0, &pad, 1);
-									
-									sprintf(con_data, "Botones(%d): %d ", tries, pad.buttons);
-									strcat(log_text,con_data);
-									select_menu();
-								
-									sceKernelDelayThread(1 * 1000 * 1000);
-								}
-								break;
-							case 6:
+							case 4:
 								strcpy(log_text,"");
 								break;
 							
