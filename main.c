@@ -23,6 +23,7 @@
 #include <psp2/touch.h>
 #include <psp2/display.h>
 #include <vita2d.h>
+#include <taihen.h>
 #include "graphics.h"
 #include "file.h"
 
