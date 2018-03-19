@@ -29,7 +29,7 @@
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"salir"} , {"Suspender","Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"salir"} , {"Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -121,22 +121,17 @@ int main()
 						
 					case 1://Boot
 						switch (sub_selected){
-							case 0://Suspend
-								ret = scePowerRequestSuspend();
-								sprintf(con_data, "Suspender: %d ", ret);
-								strcat(log_text,con_data);
-								break;
-							case 1://Restart
+							case 0://Restart
 								ret = scePowerRequestColdReset();
 								sprintf(con_data, "Restaurar: %d ", ret);
 								strcat(log_text,con_data);
 								break;
-							case 2://IDU Enable
+							case 1://IDU Enable
 								ret = vshSysconIduModeSet();
 								sprintf(con_data, "IDU activado: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
-							case 3://IDU Disable
+							case 2://IDU Disable
 								ret = vshSysconIduModeClear();
 								sprintf(con_data, "IDU desactivado (DEMO MODE): %d \n", ret);
 								strcat(log_text,con_data);
