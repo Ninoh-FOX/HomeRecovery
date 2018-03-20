@@ -28,7 +28,7 @@
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"salir"} , {"Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"salir"} , {"Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Desinstalar RECOVERY","Limpiar LOG"}  };
 
 int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
@@ -53,7 +53,7 @@ void select_menu(){
 	psvDebugScreenClear(0x00000000);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu v0.92]--            EOL.net      \n");
+	psvDebugScreenPrintf("                     --[HaiMenu v0.93]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_GREY);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREY);
@@ -78,7 +78,7 @@ void select_menu(){
 int main()
 {
 	psvDebugScreenInit();
-	psvDebugScreenClear(0x0f0f0f0f);
+	psvDebugScreenClear(0x0F0F0F0F);
 	SceCtrlData pad;
 	int ret;
 	char con_data[128];
@@ -503,7 +503,26 @@ int main()
 								strcat(log_text," \n");
 								break;
 								
-							case 4:
+							case 4://Uninstall RECOVERY
+							        if (doesFileExist("vs0:tai/boot_config.bkp")) {
+							        printf("Desinstalando RECOVERY.");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }}
+								strcpy(log_text,"");
+								copyFile("vs0:tai/boot_config.bkp" ,"vs0:tai/boot_config.txt");
+								sceIoRemove("vs0:tai/boot_config.bkp");	
+								sceIoRemove("vs0:tai/homerecovery.self");
+								scePowerRequestColdReset();}
+								else
+								{printf("Instala HomeRecovery con la VPK para desinstalar");}
+								break;
+								
+							case 5:
 								strcpy(log_text,"");
 								break;
 							
