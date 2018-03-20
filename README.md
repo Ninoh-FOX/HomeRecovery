@@ -6,7 +6,7 @@ Remember this can be a dangerous process see notes for more info.
 
 Install and boot VPK
 
-![what the menu looks like](https://fotos.subefotos.com/6460fb0313ce58757add98669831e18bo.jpg "The Menu")
+![what the menu looks like](https://fotos.subefotos.com/6eb5c583b63b3ea5d1dc16e739db073co.jpg "The Menu")
 
 # Usage
 Press right trigger on boot while the grey screen is visible
