@@ -1,5 +1,9 @@
 # HomeRecovery EOL for 3.65 enso
-Ps Vita Recovery Adaptor using enso 3.50!!
+Ps Vita Recovery Adaptor using enso 3.65!!
+
+# Por ahora sólo es compatible con vitas 3.65 y 3.60 (descargar el paquete correcto), para poder hacerla compatible con vitas TV en 3.60 y 3.65 necesito el boot_config de ambas!!
+
+# For now it is only compatible with vitas 3.65 and 3.60 (download the correct package), to be able to make it compatible with vitas TV in 3.60 and 3.65 I need the boot_config of both !!
 
 # Install
 Remember this can be a dangerous process see notes for more info.
