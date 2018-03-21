@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<livearea style="a3" format-ver="01.00" content-rev="1">
+	<livearea-background>
+		<image>bg.png</image>
+	</livearea-background>
+	 
+	<gate>
+		<startup-image>startup.png</startup-image>
+	</gate>
+	
+	<frame id="frame4">
+		<liveitem>
+			<text valign="bottom" align="left" text-align="left" text-valign="bottom" ellipsis="on">
+				<str color="#ff8800" size="40" bold="on" shadow="on">HomeRecovery enso 3.60</str>
+			</text>
+		</liveitem>
+	</frame>
+	
+	<frame id="frame1">
+		<liveitem>
+			<text>
+				<str size="22" shadow="on">Ninoh-FOX</str>
+			</text>
+		</liveitem>
+	</frame>
+
+	<frame id="frame5">
+		<liveitem>
+			<text valign="bottom" align="right" text-align="right" text-valign="bottom" ellipsis="on">
+				<str size="22" shadow="on">v0.93</str>
+			</text>
+		</liveitem>
+	</frame>
+</livearea>
