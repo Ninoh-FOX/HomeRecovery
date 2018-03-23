@@ -29,13 +29,13 @@ int main() {
 	
     if (doesFileExist("vs0:tai/boot_config.txt")) 
 
-        {printf("          Esta consola tiene ENSO 3.65\n\n");
+        {printf("          This console has ENSO 3.65\n\n");
 
         {if (doesFileExist("vs0:tai/homerecovery.self")) {
-	         printf("ya tienes HomeRecovery instalado \n\n");
-	         printf("Quieres actualizar/Reinstalar? (X) Si    (O) No \n\n");
+	         printf("you already have HomeRecovery installed \n\n");
+	         printf("Do you want to update / Reinstall? (X) Yes    (O) No \n\n");
 	         switch(get_key()) {
-	case SCE_CTRL_CROSS: printf("Instalando HomeRecovery.");
+	case SCE_CTRL_CROSS: printf("Installing HomeRecovery.");
 		         for (i = 0; i < 15; i++) {
 		         printf(".", (i * 0x100));
 		         vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -46,18 +46,18 @@ int main() {
 
 	             copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"vs0:tai/homerecovery.self");
 
-	             printf("\n\nHecho, reiniciando en 5s.");
+	             printf("\n\nNice, rebooting in 5s.");
 
 	             sceKernelDelayThread(5 * 1000 * 1000);
 	             scePowerRequestColdReset();
 				 break;
-	case SCE_CTRL_CIRCLE: printf("Saliendo de la aplicacion");
+	case SCE_CTRL_CIRCLE: printf("Leaving the application");
 		         sceKernelDelayThread(5 * 1000 * 1000);
 	             sceKernelExitProcess(0);
 	             break;
 	             }}
 	     else
-             {printf("Instalando HomeRecovery.");
+             {printf("Installing HomeRecovery.");
 	         for (i = 0; i < 15; i++) {
 	    	 printf(".", (i * 0x100));
 		     vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -70,7 +70,7 @@ int main() {
 	         copyFile("ux0:app/HMRC00001/data/boot_config365.txt", "vs0:tai/boot_config.txt");
 	         copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"vs0:tai/homerecovery.self");
 
-	         printf("\n\nHecho, reiniciando en 5s.");
+	         printf("\n\nNice, rebooting in 5s.");
 
 	         sceKernelDelayThread(5 * 1000 * 1000);
 	         scePowerRequestColdReset();}
@@ -79,13 +79,13 @@ int main() {
  
   else if (doesFileExist("ur0:tai/boot_config.txt")) 
 
-        {printf("          Esta consola tiene ENSO 3.60\n\n");
+        {printf("          This console has ENSO 3.60\n\n");
 
         {if (doesFileExist("ur0:tai/homerecovery.self")) {
-	         printf("ya tienes HomeRecovery instalado \n\n");
-	         printf("Quieres actualizar/Reinstalar? (X) Si    (O) No \n\n");
+	         printf("you already have HomeRecovery installed \n\n");
+	         printf("Do you want to update / Reinstall? (X) Yes    (O) No \n\n");
 	         switch(get_key()) {
-	case SCE_CTRL_CROSS: printf("Instalando HomeRecovery.");
+	case SCE_CTRL_CROSS: printf("Installing HomeRecovery.");
 		         for (i = 0; i < 15; i++) {
 		         printf(".", (i * 0x100));
 		         vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -96,18 +96,18 @@ int main() {
 
 	             copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"ur0:tai/homerecovery.self");
 
-	             printf("\n\nHecho, reiniciando en 5s.");
+	             printf("\n\nNice, rebooting in 5s.");
 
 	             sceKernelDelayThread(5 * 1000 * 1000);
 	             scePowerRequestColdReset();
 				 break;
-	case SCE_CTRL_CIRCLE: printf("Saliendo de la aplicacion");
+	case SCE_CTRL_CIRCLE: printf("Leaving the application");
 		         sceKernelDelayThread(5 * 1000 * 1000);
 	             sceKernelExitProcess(0);
 	             break;
 	             }}
 	     else
-             {printf("Instalando HomeRecovery.");
+             {printf("Installing HomeRecovery.");
 	         for (i = 0; i < 15; i++) {
 	    	 printf(".", (i * 0x100));
 		     vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -120,13 +120,13 @@ int main() {
 	         copyFile("ux0:app/HMRC00001/data/boot_config360.txt", "ur0:tai/boot_config.txt");
 	         copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"ur0:tai/homerecovery.self");
 
-	         printf("\n\nHecho, reiniciando en 5s.");
+	         printf("\n\nNice, rebooting in 5s.");
 
 	         sceKernelDelayThread(5 * 1000 * 1000);
 	         scePowerRequestColdReset();}
              }
 	    }
-		else printf("Consola sin enso\nSaliendo del programa");
+		else printf("Console without enso\nleaving the program");
 		sceKernelDelayThread(5 * 1000 * 1000);
 		sceKernelExitProcess(0);
 }
