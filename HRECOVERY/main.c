@@ -59,7 +59,7 @@ void select_menu(){
 	psvDebugScreenClear(0x00000000);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu v0.93]--            EOL.net      \n");
+	psvDebugScreenPrintf("                     --[HaiMenu v1.00]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_GREY);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREY);
