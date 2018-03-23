@@ -1,6 +1,6 @@
 TITLE_ID = HMRC00001
-TARGET   = HomeRecoveryTV
-OBJS     = main.o graphics.o font.o file.o
+TARGET   = HomeRecovery
+OBJS     = main.o graphics.o font.o file.o init.o
 
 LIBS    = -lSceVshBridge_stub -lSceDisplay_stub -lSceAppMgr_stub -lScePromoterUtil_stub -lSceSysmodule_stub -lSceIofilemgr_stub -lSceKernelThreadMgr_stub -lSceCommonDialog_stub -lSceDisplay_stub -lSceGxm_stub -lvita2d -lfreetype -lSceShellSvc_stub -lScePgf_stub -lSceSysmodule_stub -lSceAppUtil_stub -lSceCtrl_stub -lScePower_stub -lSceVshBridge_stub -lSceAppMgr_stub -lSceRegistryMgr_stub  -ltaihen_stub -lSceLibKernel_stub -lSceKernelThreadMgr_stub -lSceAppMgr_stub_weak -lSceIofilemgr_stub_weak -lk -lgcc
 
@@ -14,7 +14,7 @@ all: $(TARGET).vpk
 
 %.vpk: eboot.bin
 	vita-mksfoex -s TITLE_ID=$(TITLE_ID) $(TARGET) param.sfo
-	vita-pack-vpk -s param.sfo -b eboot.bin -a data/boot_config.txt=data/boot_config.txt -a data/homerecovery.self=data/homerecovery.self -a pkg/sce_sys/icon0.png=sce_sys/icon0.png -a pkg/sce_sys/livearea/contents/startup.png=sce_sys/livearea/contents/startup.png -a pkg/sce_sys/livearea/contents/template.xml=sce_sys/livearea/contents/template.xml -a pkg/sce_sys/livearea/contents/bg.png=sce_sys/livearea/contents/bg.png $@
+	vita-pack-vpk -s param.sfo -b eboot.bin -a pkg/sce_sys/icon0.png=sce_sys/icon0.png -a pkg/sce_sys/livearea/contents/startup.png=sce_sys/livearea/contents/startup.png -a pkg/sce_sys/livearea/contents/template.xml=sce_sys/livearea/contents/template.xml -a pkg/sce_sys/livearea/contents/bg.png=sce_sys/livearea/contents/bg.png $@
 
 eboot.bin: $(TARGET).velf
 	vita-make-fself $< $@

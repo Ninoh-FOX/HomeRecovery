@@ -17,11 +17,11 @@
 #define MAX_PATH_LENGTH 1024
 int doesFileExist(const char* path);
 int doesDirExist(const char* path);
-
+int WriteFile(char *file, void *buf, int size);
 int copyFile(char *src_path, char *dst_path);
 int getFileSize(const char *file);
 int createEmptyFile(char *path);
-
+int mount(int argc, char *argv[]);
 int makePath(const char *dir);
 int removePath(char *path);
 

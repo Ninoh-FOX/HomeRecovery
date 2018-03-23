@@ -28,9 +28,8 @@
 
 char menu_items[][60] = {" 	 Continuar - arranque normal"," 	 Boot - arranque en diferentes modos"," 	 Fixes - solucionar problemas de arranque"," 	 Mount - Montar puntos de particiones"," 	 Backup - copias de seguridad"," 	 Extras - Molecular, Vitashell, ..."};
 
-char menu_options [][8][28] = {  {"salir"} , {"Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai"} , {"Molecular a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Desinstalar RECOVERY","Limpiar LOG"}  };
+char menu_options [][8][28] = {  {"salir"} , {"Reiniciar","IDU ON","IDU OFF (DEMO MODE)"} , {"Borrar id.dat","Borrar act.dat","Borrar ux0:tai/config.txt","Borrar ur0:tai/config.txt","Borrar registro","Borrar Base de datos"} , {"Montar MemCard","Desmontar MemCard"} , {"Copiar activacion","Restaurar activacion","Copiar ur0 tai","Resturar ur0 tai","Copiar ux0 tai","Restaurar ux0 tai","Copiar Base datos","Restaurar Base datos"} , {"Installar VITASHELL","Molecular a NEAR", "Molecular (modo2) a NEAR","Restaurar NEAR","Cambiar NEARMOD x VITASHELL","informacion del sistema","Desinstalar RECOVERY","Limpiar LOG"}  };
 
-int sceAppMgrLoadExec();
 int scePowerRequestSuspend();
 int scePowerRequestColdReset();
 int vshSysconIduModeSet();
@@ -46,6 +45,13 @@ int i;
 int pressed;
 int WriteFile();
 int mount();
+int doesFileExist();
+int doesDirExist();
+int copyFile();
+int getFileSize();
+int createEmptyFile();
+int makePath();
+int removePath();
 
 char log_text[800];
 
@@ -78,7 +84,7 @@ void select_menu(){
 int main()
 {
 	psvDebugScreenInit();
-	psvDebugScreenClear(0x0F0F0F0F);
+	psvDebugScreenClear(0x0F8F0F0F);
 	SceCtrlData pad;
 	int ret;
 	char con_data[128];
@@ -138,7 +144,7 @@ int main()
 							
 						}
 						break;
-					case 2:
+					case 2: //deletes
 						switch (sub_selected){
 							case 0://Delete id.dat
 								ret = sceIoRemove("ux0:/id.dat");
@@ -147,7 +153,7 @@ int main()
 								break;
 							case 1://Delete act.dat
 								ret = sceIoRemove("tm0:npdrm/act.dat");
-								sprintf(con_data, "Borrando act.dat: %d reiniciando en 5s", ret);
+								sprintf(con_data, "Borrando act.dat: reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
@@ -155,7 +161,7 @@ int main()
 								break;
 							case 2://Delete tai config UX0
 								ret = sceIoRemove("ux0:tai/config.txt");
-								sprintf(con_data, "Borrando configuracion ux0:tai %d reiniciando en 5s", ret);
+								sprintf(con_data, "Borrando configuracion ux0:tai reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
@@ -163,7 +169,7 @@ int main()
 								break;
 					                case 3://Delete tai config UR0
 								ret = sceIoRemove("ur0:tai/config.txt");
-								sprintf(con_data, "Borrando configuracion ur0:tai %d reiniciando en 5s", ret);
+								sprintf(con_data, "Borrando configuracion ur0:tai reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
@@ -182,10 +188,18 @@ int main()
                                                                 scePowerRequestColdReset();
 								
 								break;
+							case 5://Erase DATA BASE
+							        ret = sceIoRemove("ur0:shell/db/app.db");
+								sprintf(con_data, "Borrando base de datos. reiniciando en 5s %d", ret);
+								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
+								break;
 							
 						}
 						break;
-					case 3:
+					case 3: //mounts
 						switch (sub_selected){
 							case 0://Mount mem card
 								ret = _vshIoMount(0x800, NULL, 0, 0, 0, 0);
@@ -200,7 +214,7 @@ int main()
 							
 						}
 						break;
-					case 4:
+					case 4: //backups
 						switch (sub_selected){
 							case 0://Copy activation
 								if (doesDirExist("ux0:/Backup_act")) {
@@ -228,7 +242,7 @@ int main()
 								copyFile("ux0:/Backup_act/system.dreg" ,"vd0:/registry/system.dreg");
 								copyFile("ux0:/Backup_act/system.ireg" ,"vd0:/registry/system.ireg");
 								copyFile("ux0:/Backup_act/myprofile.dat" ,"ur0:/user/00/np/myprofile.dat");
-                                                                sprintf(con_data, "restaurando archivos de activacion: %d reiniciando en 5s", ret);
+                                                                sprintf(con_data, "restaurando archivos de activacion: Ok! reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
@@ -248,7 +262,7 @@ int main()
 								break;
                                                         case 3://Restore tai config UR0
 								ret = copyFile("ur0:tai/backup/config.txt" ,"ur0:tai/config.txt");
-								sprintf(con_data, "Restaurando configuracion ur0:tai %d reiniciando en 5s", ret);
+								sprintf(con_data, "Restaurando configuracion ur0:tai Ok! reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
@@ -268,19 +282,84 @@ int main()
 								break;
 							case 5://Restore tai config UX0 
 								ret = copyFile("ux0:tai/backup/config.txt" ,"ux0:tai/config.txt");
-								sprintf(con_data, "Restaurando configuracion ux0:tai %d reiniciando en 5s", ret);
+								sprintf(con_data, "Restaurando configuracion ux0:tai : Ok! reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
 								sceKernelDelayThread(5 * 1000 * 1000);
                                                                 scePowerRequestColdReset();
 								break;
-							
+							case 6://Copy DATA BASE
+								ret = copyFile("ur0:shell/db/app.db" ,"ur0:shell/db/app.bkp");
+								copyFile("ux0:iconlayout.ini" ,"ux0:iconlayout.bkp");
+								sprintf(con_data, "Copiando base de datos: Ok! XD %d\n", ret);
+								strcat(log_text,con_data);
+								break;
+							case 7://Restore DATA BASE 
+								ret = copyFile("ur0:shell/db/app.bkp" ,"ur0:shell/db/app.db");
+								copyFile("ux0:iconlayout.bkp" ,"ux0:iconlayout.ini");
+								sprintf(con_data, "Restaurando base de datos: Ok! reiniciando en 5s %d", ret);
+								strcat(log_text,con_data);
+                                                                select_menu();
+								sceKernelDelayThread(5 * 1000 * 1000);
+                                                                scePowerRequestColdReset();
+								break;
 						}
 						break;
-					case 5:
+					case 5: //Vitashel Molecular
 						switch (sub_selected){
-							case 0://Molecular to Near
-                                                                ret = mount(); {if (doesDirExist("ux0:/app/MLCL00001")) {printf("Cambiando NEAR y haciendo copia \n");{for (i = 0; i < 15; i++) {
+							case 0://Install VITASHELL
+                                                                printf("Instalando VitaShell...\n");
+								sprintf(con_data, "Instalando VitaShell...\n");
+								sceIoMkdir("ux0:app/VITASHELL" , 0777);
+								sceIoMkdir("ux0:app/VITASHELL/sce_sys" , 0777);
+								sceIoMkdir("ux0:app/VITASHELL/sce_sys/livearea" , 0777);
+								sceIoMkdir("ux0:app/VITASHELL/sce_sys/package" , 0777);
+								sceIoMkdir("ux0:app/VITASHELL/sce_sys/livearea/contents" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL/sce_sys" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL/livearea" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL/sce_pfs" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL/sce_pfs/icv.db" , 0777);
+								sceIoMkdir("ux0:appmeta/VITASHELL/livearea/contents" , 0777);
+								
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/eboot.bin" ,"ux0:/app/VITASHELL/eboot.bin");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/param.sfo", "ux0:app/VITASHELL/sce_sys/param.sfo");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/icon0.png", "ux0:app/VITASHELL/sce_sys/icon0.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/package/head.bin", "ux0:app/VITASHELL/sce_sys/package/head.bin");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/package/work.bin", "ux0:app/VITASHELL/sce_sys/package/work.bin");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/livearea/contents/bg.png", "ux0:app/VITASHELL/sce_sys/livearea/contents/bg.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/livearea/contents/startup.png", "ux0:app/VITASHELL/sce_sys/livearea/contents/starup.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APP/sce_sys/livearea/contents/template.xml", "ux0:app/VITASHELL/sce_sys/livearea/contents/template.xml");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/icon0.png", "ux0:appmeta/VITASHELL/icon0.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/ebootparam.bin", "ux0:appmeta/VITASHELL/ebootparam.bin");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/param.sfo", "ux0:appmeta/VITASHELL/param.sfo");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/icon0.png", "ux0:appmeta/VITASHELL/icon0.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/livearea/contents/bg.png", "ux0:appmeta/VITASHELL/livearea/contents/bg.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/livearea/contents/startup.png", "ux0:appmeta/VITASHELL/livearea/contents/startup.png");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/livearea/contents/template.xml", "ux0:appmeta/VITASHELL/livearea/contents/template.xml");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_sys/sealedkey", "ux0:appmeta/VITASHELL/sce_sys/sealedkey");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/files.db", "ux0:appmeta/VITASHELL/sce_pfs/files.db");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/4a7d8188.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/4a7d8188.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/70a147ff.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/70a147ff.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/125c92f0.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/125c92f0.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/455a7a2a.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/455a7a2a.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/583d5815.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/583d5815.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/977df42f.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/977df42f.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/b90dec2b.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/b90dec2b.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/cd81206f.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/cd81206f.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/f60ff9f9.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/f60ff9f9.icv");
+								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/f306a512.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/f306a512.icv");
+						                
+								sceIoRemove("ur0:shell/db/app.db");
+								printf("\n\nHecho!! Reiniciando en 5s...");
+								sprintf(con_data, "\n\nHecho!! Reiniciando en 5s...");
+								strcat(log_text,con_data);
+                                                                sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset();
+							        break;
+
+							case 1://Molecular to Near
+                                                                if (doesDirExist("ux0:/app/MLCL00001")) {printf("Cambiando NEAR y haciendo copia \n");{for (i = 0; i < 15; i++) {
 		                                                printf(".");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
@@ -310,7 +389,7 @@ int main()
                                                                 sceIoRemove("ux0:/backup_NEAR/MOLECULAR/param.sfo");
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
-                                                                sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
@@ -358,7 +437,7 @@ int main()
                                                                 sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
 	                                                        copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
 	                                                        sceIoRemove("ur0:shell/db/app.db");
-                                                                copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.db");
+                                                                copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
                                                                 sceIoRemove("ux0:iconlayout.ini");
                                                                 sceIoRename("ux0:/app/MLCL00001" , "ux0:/app/BLCL00001");
                                                                 sceIoRemove("ux0:/app/BLCL00001/eboot.bin");
@@ -389,23 +468,122 @@ int main()
                                                                 sceIoRmdir("ux0:/appmeta/MLCL00001");
                                                                 strcpy(log_text,"");
                                                                 select_menu();
-	                                                        printf("\n\nHecho!! Reiniciando en 5s..." , ret);
+	                                                        printf("\n\nHecho!! Reiniciando en 5s...");
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset();}
                                                                 else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECUAR a NEAR!!\n");
 								strcat(log_text,con_data); }
-                                                                else
-                                                                {sprintf(con_data, "No tienes molecular shell instalado... :(  \n");
+								else if (doesDirExist("vs0:/app/NPXS10000/MLCL2")) {sprintf(con_data, "Ya tienes instalado MOLECUAR en NEAR!!\n");
 								strcat(log_text,con_data); }
-	                                                        }
+                                                                else
+                                                                {sprintf(con_data, "No tienes molecular shell instalado... :(  \nPero no te preocupes, usa el modo 2. ;)\n");
+								strcat(log_text,con_data); }
                                                                 break;
 
-                                                        case 1://Near restore
-                                                                ret = mount(); {if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
+                                                        case 2://Molecular to Near mode 2 without molecular install
+                                                                if (doesDirExist("vs0:/app/NPXS10000/MLCL2")) {sprintf(con_data, "Ya tienes instalado MOLECUAR en NEAR!!\n");
+								strcat(log_text,con_data); }
+								else if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECUAR en NEAR!!\n");
+								strcat(log_text,con_data); }
+                                                                else if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {printf("Instalando Molecular en NEAR y haciendo copia\n");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }
+                                                                }
+                                                                sceIoMkdir("vs0:/app/NPXS10000/MLCL2" , 0777);
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/ur0/startup.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/eboot.bin");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/eboot.bin");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/icon0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/bg.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/install_button.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/startup.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/template.xml");
+                                                                sceIoRemove("ux0:/backup_NEAR/MOLECULAR/param.sfo");
+                                                                sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
+                                                                sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
+                                                                sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
+                                                                sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
+                                                                sceIoRmdir("ux0:/backup_NEAR/NEAR");
+                                                                sceIoRmdir("ux0:/backup_NEAR/DB");
+                                                                sceIoRmdir("ux0:/backup_NEAR");
+                                                                sceIoMkdir("ux0:/backup_NEAR" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/NEAR2" , 0777);
+                                                                sceIoMkdir("ux0:/backup_NEAR/DB" , 0777);
+                                                                 
+								copyFile("vs0:/app/NPXS10000/eboot.bin" ,"ux0:/backup_NEAR/NEAR2/eboot.bin");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/icon0.png" ,"ux0:/backup_NEAR/NEAR2/icon0.png");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml" ,"ux0:/backup_NEAR/NEAR2/template.xml");
+                                                                copyFile("vs0:/app/NPXS10000/sce_sys/pic0.png" ,"ux0:/backup_NEAR/NEAR2/pic0.png");
+
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/bg.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/bg.png");
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/install_button.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/install_button.png");
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/startup.png" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/startup.png");
+                                                                copyFile("ux0:/app/HMRC00001/data/MOLECULAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                
+								sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
+                                                                copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
+	                                                        sceIoRemove("ur0:shell/db/app.db");
+                                                                copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
+                                                                sceIoRemove("ux0:iconlayout.ini");
+                                                                strcpy(log_text,"");
+                                                                select_menu();
+	                                                        printf("\n\nHecho!! Reiniciando en 5s...");
+								strcat(log_text,con_data);
+                                                                sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset(); }
+								else {sprintf(con_data, "Nada que hacer aqui...\n");
+								strcat(log_text,con_data); }
+                                                                break;
+                                                         
+							 case 3://Near restore
+                                                                if (doesFileExist("vs0:/app/NPXS10000/sce_sys/pic0.png")) {
                                                                 sprintf(con_data, "Ya tienes NEAR original!!...\n");
 								strcat(log_text,con_data); }
-                                                                else if (doesDirExist("ux0:/backup_NEAR/NEAR")) {printf("Restaurando NEAR \n");
+								else if (doesDirExist("ux0:/backup_NEAR/NEAR2") && doesDirExist("vs0:/app/NPXS10000/MLCL2")) {printf("Restaurando NEAR \n");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }
+                                                                }
+                                                                sceIoRmdir("vs0:/app/NPXS10000/MLCL2");
+                                                                
+                                                                copyFile("ux0:/backup_NEAR/NEAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/NEAR/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");
+                                                                
+	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
+                                                                copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.ini" , "ux0:iconlayout.ini");
+                                                                strcpy(log_text,"");
+                                                                select_menu();
+	                                                        printf("\n\nRestaurado!! Reiniciando en 5s...");
+								strcat(log_text,con_data);
+                                                                sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset();}
+                                                                else if (doesDirExist("ux0:/backup_NEAR/NEAR") && doesDirExist("vs0:/app/NPXS10000/MLCL")) {printf("Restaurando NEAR \n");
 								{for (i = 0; i < 15; i++) {
 		                                                printf(".");
 		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
@@ -446,24 +624,37 @@ int main()
                                                                 copyFile("ux0:/backup_NEAR/MOLECULAR/livearea/startup.png" ,"ux0:/appmeta/MLCL00001/livearea/contents/startup.png");
 
 	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
-                                                                copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.db" , "ux0:iconlayout.ini");
+                                                                copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.ini" , "ux0:iconlayout.ini");
                                                                 sceIoRename("ur0:/appmeta/BLCL00001" ,"ur0:/appmeta/MLCL00001");
                                                                 sceIoRename("ux0:/appmeta/BLCL00001" ,"ux0:/appmeta/MLCL00001");
                                                                 strcpy(log_text,"");
                                                                 select_menu();
-	                                                        printf("\n\nRestaurado!! Reiniciando en 5s..." , ret);
+	                                                        printf("\n\nRestaurado!! Reiniciando en 5s...");
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset();}
                                                                 else
                                                                 {sprintf(con_data, "No tienes copia de NEAR... :(  \n");
 								strcat(log_text,con_data); }
-	                                                        }
                                                                 break;
 
                                                         
-							case 2://Molecular x Vitashell
+							case 4://Molecular x Vitashell
 							        if (doesDirExist("vs0:/app/NPXS10000/MLCL")) {
+							        printf("cambiando MOLECULAR por VITASHELL!! XD \n");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+								vshIoUmount(i * 0x100, 0, 0, 0);
+								printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100));
+								}}
+								strcpy(log_text,"");
+								copyFile("ux0:/app/VITASHELL/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+								printf("\n\nHecho!!! Reiniciando en 5s \n"); 
+								sceKernelDelayThread(6 * 1000 * 1000);
+	                                                        scePowerRequestColdReset();
+								strcat(log_text,con_data); }
+								else if (doesDirExist("vs0:/app/NPXS10000/MLCL2")) {
 							        printf("cambiando MOLECULAR por VITASHELL!! XD \n");
 								{for (i = 0; i < 15; i++) {
 		                                                printf(".");
@@ -483,7 +674,7 @@ int main()
 	                                                        }
                                                                 break;
 							
-							case 3://SYS INFO
+							case 5://SYS INFO
 								sceRegMgrGetKeyStr("/CONFIG/TEL", "sim_unique_id", con_data, 6 * 16);//IMEI
 								strcat(log_text,"IMEI: ");
 								strcat(log_text,con_data);
@@ -503,7 +694,7 @@ int main()
 								strcat(log_text," \n");
 								break;
 								
-							case 4://Uninstall RECOVERY
+							case 6://Uninstall RECOVERY
 							        if (doesFileExist("vs0:tai/boot_config.bkp")) {
 							        printf("Desinstalando RECOVERY.");
 								{for (i = 0; i < 15; i++) {
@@ -518,11 +709,25 @@ int main()
 								sceIoRemove("vs0:tai/boot_config.bkp");	
 								sceIoRemove("vs0:tai/homerecovery.self");
 								scePowerRequestColdReset();}
+								else if (doesFileExist("ur0:tai/boot_config.bkp")) {
+							        printf("Desinstalando RECOVERY.");
+								{for (i = 0; i < 15; i++) {
+		                                                printf(".");
+		                                                vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		                                                printf(".");
+		                                                _vshIoMount(i * 0x100, 0, 2, malloc(0x100)); // id, unk, permission, work_buffer
+	                                                        }}
+								strcpy(log_text,"");
+								copyFile("ur0:tai/boot_config.bkp" ,"ur0:tai/boot_config.txt");
+								sceIoRemove("ur0:tai/boot_config.bkp");	
+								sceIoRemove("ur0:tai/homerecovery.self");
+								scePowerRequestColdReset();}
 								else
-								{printf("Instala HomeRecovery con la VPK para desinstalar");}
+								{printf("Instala HomeRecovery con la VPK para desinstalar\n");}
 								break;
 								
-							case 5:
+							case 7:
 								strcpy(log_text,"");
 								break;
 							
@@ -565,7 +770,7 @@ int main()
 			}
 			
 			if (pad.buttons == SCE_CTRL_RIGHT) {
-				if(strlen(menu_options[selected][sub_selected+1]) > 2 && sub_selected+1 < 6){
+				if(strlen(menu_options[selected][sub_selected+1]) > 2 && sub_selected+1 < 8){
 					sub_selected++;
 				}
 				select_menu();
