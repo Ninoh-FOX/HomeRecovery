@@ -10,7 +10,7 @@ Remember this can be a dangerous process see notes for more info.
 
 Install and boot VPK
 
-![](https://fotos.subefotos.com/3956162151dd9e07428187cf6d27886ao.jpg "the icon") ![](https://fotos.subefotos.com/37bb45080ddf3d6f3bdcbe6698c67f84o.jpg "")
+![](https://fotos.subefotos.com/3956162151dd9e07428187cf6d27886ao.jpg "the icon") ![](https://fotos.subefotos.com/75d4c212c98ba6e5631cfdb3a79e55b9o.jpg "")
 ![what the menu looks like](https://fotos.subefotos.com/6eb5c583b63b3ea5d1dc16e739db073co.jpg "The Menu")
 
 # Usage
