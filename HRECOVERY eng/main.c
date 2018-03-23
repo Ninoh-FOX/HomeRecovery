@@ -570,10 +570,10 @@ int main()
                                                                 }
                                                                 sceIoRmdir("vs0:/app/NPXS10000/MLCL2");
                                                                 
-                                                                copyFile("ux0:/backup_NEAR/NEAR/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
-                                                                copyFile("ux0:/backup_NEAR/NEAR/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
-                                                                copyFile("ux0:/backup_NEAR/NEAR/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
-                                                                copyFile("ux0:/backup_NEAR/NEAR/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");
+                                                                copyFile("ux0:/backup_NEAR/NEAR2/eboot.bin" ,"vs0:/app/NPXS10000/eboot.bin");
+                                                                copyFile("ux0:/backup_NEAR/NEAR2/icon0.png" ,"vs0:/app/NPXS10000/sce_sys/icon0.png");
+                                                                copyFile("ux0:/backup_NEAR/NEAR2/template.xml" ,"vs0:/app/NPXS10000/sce_sys/livearea/contents/template.xml");
+                                                                copyFile("ux0:/backup_NEAR/NEAR2/pic0.png" ,"vs0:/app/NPXS10000/sce_sys/pic0.png");
                                                                 
 	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
                                                                 copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.ini" , "ux0:iconlayout.ini");
