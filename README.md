@@ -1,21 +1,21 @@
 # HomeRecovery EOL for enso
-Ps Vita Recovery Adaptor using enso 3.60 and 3.65!!
-
-# Por ahora sólo es compatible con vitas 3.65 y 3.60 (descargar el paquete correcto), para poder hacerla compatible con vitas TV en 3.60 y 3.65 necesito el boot_config de ambas!!
-
-# For now it is only compatible with vitas 3.65 and 3.60 (download the correct package), to be able to make it compatible with vitas TV in 3.60 and 3.65 I need the boot_config of both !!
+Ps Vita and PSTV Recovery Adaptor using enso 3.60 and 3.65!!
 
 # Install
 Remember this can be a dangerous process see notes for more info.
 
 Install and boot VPK
 
+![](https://fotos.subefotos.com/3956162151dd9e07428187cf6d27886ao.jpg "the icon") ![](https://fotos.subefotos.com/75d4c212c98ba6e5631cfdb3a79e55b9o.jpg "")
 ![what the menu looks like](https://fotos.subefotos.com/6eb5c583b63b3ea5d1dc16e739db073co.jpg "The Menu")
 
 # Usage
-Press right trigger on boot while the grey screen is visible
+Press right trigger on boot while the blue screen is visible
 
 # Releases
+
+V1.00: Copy and restore Database, Erase Database, install Vitashell from recovery menu, Inject Molecular in NEAR without have Molecular          installer in the console (mode2). Clean and optimize de code. Fixs. Now the vpk detected firmware of the console for install the          correct module, now PSTV compatible. Change icon style from livearea.
+
 v0.93: VPK installer HomeRecovery (add option uninstall inside recovery menu)
 
 v0.92: only clean the code.
