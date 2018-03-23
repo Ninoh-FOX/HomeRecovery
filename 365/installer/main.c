@@ -8,45 +8,125 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "init.h"
 #include "graphics.h"
 #include "file.h"
 
 #define printf psvDebugScreenPrintf
 
+int get_key();
 int scePowerRequestColdReset();
 int _vshIoMount();
 int vshIoUmount();
 int doesFileExist();
 int copyFile();
 int WriteFile();
-int main(int argc, char *argv[]) {
+int main() {
 	int i;
 	void *buf = malloc(0x100);
 
 	psvDebugScreenInit();
+	
+    if (doesFileExist("vs0:tai/boot_config.txt")) 
 
-	if (doesFileExist("vs0:tai/homerecovery.self")) {printf("ya tienes HomeRecovery instalado \n\n");
-	printf("Saliendo en 5s...");
-	sceKernelDelayThread(5 * 1000 * 1000);
-	sceKernelExitProcess(0);}
-	else
-    {printf("Instalando HomeRecovery.");
-	for (i = 0; i < 15; i++) {
-		printf(".", (i * 0x100));
-		vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+        {printf("          Esta consola tiene ENSO 3.65\n\n");
 
-		printf(".", (i * 0x100));
-		_vshIoMount(i * 0x100, 0, 2, buf); // id, unk, permission, work_buffer
-	}
+        {if (doesFileExist("vs0:tai/homerecovery.self")) {
+	         printf("ya tienes HomeRecovery instalado \n\n");
+	         printf("Quieres actualizar/Reinstalar? (X) Si    (O) No \n\n");
+	         switch(get_key()) {
+	case SCE_CTRL_CROSS: printf("Instalando HomeRecovery.");
+		         for (i = 0; i < 15; i++) {
+		         printf(".", (i * 0x100));
+		         vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
 
-	copyFile("vs0:tai/boot_config.txt" ,"vs0:tai/boot_config.bkp");
-	copyFile("ux0:app/HMRC00001/data/boot_config.txt", "vs0:tai/boot_config.txt");
-	copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"vs0:tai/homerecovery.self");
+		         printf(".", (i * 0x100));
+		         _vshIoMount(i * 0x100, 0, 2, buf); // id, unk, permission, work_buffer
+	             }
 
-	printf("\n\nHecho, reiniciando en 5s.");
+	             copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"vs0:tai/homerecovery.self");
 
-	sceKernelDelayThread(5 * 1000 * 1000);
-	scePowerRequestColdReset();}
+	             printf("\n\nHecho, reiniciando en 5s.");
 
-	return 0;
+	             sceKernelDelayThread(5 * 1000 * 1000);
+	             scePowerRequestColdReset();
+				 break;
+	case SCE_CTRL_CIRCLE: printf("Saliendo de la aplicacion");
+		         sceKernelDelayThread(5 * 1000 * 1000);
+	             sceKernelExitProcess(0);
+	             break;
+	             }}
+	     else
+             {printf("Instalando HomeRecovery.");
+	         for (i = 0; i < 15; i++) {
+	    	 printf(".", (i * 0x100));
+		     vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		     printf(".", (i * 0x100));
+		     _vshIoMount(i * 0x100, 0, 2, buf); // id, unk, permission, work_buffer
+	         }
+
+	         copyFile("vs0:tai/boot_config.txt" ,"vs0:tai/boot_config.bkp");
+	         copyFile("ux0:app/HMRC00001/data/boot_config365.txt", "vs0:tai/boot_config.txt");
+	         copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"vs0:tai/homerecovery.self");
+
+	         printf("\n\nHecho, reiniciando en 5s.");
+
+	         sceKernelDelayThread(5 * 1000 * 1000);
+	         scePowerRequestColdReset();}
+             };
+			 }
+ 
+  else if (doesFileExist("ur0:tai/boot_config.txt")) 
+
+        {printf("          Esta consola tiene ENSO 3.60\n\n");
+
+        {if (doesFileExist("ur0:tai/homerecovery.self")) {
+	         printf("ya tienes HomeRecovery instalado \n\n");
+	         printf("Quieres actualizar/Reinstalar? (X) Si    (O) No \n\n");
+	         switch(get_key()) {
+	case SCE_CTRL_CROSS: printf("Instalando HomeRecovery.");
+		         for (i = 0; i < 15; i++) {
+		         printf(".", (i * 0x100));
+		         vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		         printf(".", (i * 0x100));
+		         _vshIoMount(i * 0x100, 0, 2, buf); // id, unk, permission, work_buffer
+	             }
+
+	             copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"ur0:tai/homerecovery.self");
+
+	             printf("\n\nHecho, reiniciando en 5s.");
+
+	             sceKernelDelayThread(5 * 1000 * 1000);
+	             scePowerRequestColdReset();
+				 break;
+	case SCE_CTRL_CIRCLE: printf("Saliendo de la aplicacion");
+		         sceKernelDelayThread(5 * 1000 * 1000);
+	             sceKernelExitProcess(0);
+	             break;
+	             }}
+	     else
+             {printf("Instalando HomeRecovery.");
+	         for (i = 0; i < 15; i++) {
+	    	 printf(".", (i * 0x100));
+		     vshIoUmount(i * 0x100, 0, 0, 0); // id, unk1, unk2, unk3 (flags ?)
+
+		     printf(".", (i * 0x100));
+		     _vshIoMount(i * 0x100, 0, 2, buf); // id, unk, permission, work_buffer
+	         }
+
+	         copyFile("ur0:tai/boot_config.txt" ,"ur0:tai/boot_config.bkp");
+	         copyFile("ux0:app/HMRC00001/data/boot_config360.txt", "ur0:tai/boot_config.txt");
+	         copyFile("ux0:app/HMRC00001/data/homerecovery.self" ,"ur0:tai/homerecovery.self");
+
+	         printf("\n\nHecho, reiniciando en 5s.");
+
+	         sceKernelDelayThread(5 * 1000 * 1000);
+	         scePowerRequestColdReset();}
+             }
+	    }
+		else printf("Consola sin enso\nSaliendo del programa");
+		sceKernelDelayThread(5 * 1000 * 1000);
+		sceKernelExitProcess(0);
 }

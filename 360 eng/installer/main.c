@@ -2,6 +2,9 @@
 #include <psp2/io/fcntl.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/power.h>
+#include <psp2/ctrl.h>
+#include <psp2/kernel/threadmgr.h>
+#include <sys/time.h>
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -19,6 +22,7 @@ int vshIoUmount();
 int doesFileExist();
 int copyFile();
 int WriteFile();
+
 int main(int argc, char *argv[]) {
 	int i;
 	void *buf = malloc(0x100);
