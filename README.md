@@ -14,6 +14,10 @@ Press right trigger on boot while the blue screen is visible
 
 # Releases
 
+v1.02: Fixed when icons / bubbles are messed up when doing operations on near or installing vitashell
+
+v1.01: Fixed when restore NEAR mode2 missing pic0.png 
+
 V1.00: Copy and restore Database, Erase Database, install Vitashell from recovery menu, Inject Molecular in NEAR without have Molecular          installer in the console (mode2). Clean and optimize de code. Fixs. Now the vpk detected firmware of the console for install the          correct module, now PSTV compatible. Change icon style from livearea.
 
 v0.93: VPK installer HomeRecovery (add option uninstall inside recovery menu)
