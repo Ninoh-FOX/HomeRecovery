@@ -59,7 +59,7 @@ void select_menu(){
 	psvDebugScreenClear(0x00000000);
 	psvDebugScreenSetFgColor(COLOR_YELLOW);
 	psvDebugScreenPrintf("Ninoh-FOX            --[Menu Recovery]--                         \n");
-	psvDebugScreenPrintf("                     --[HaiMenu v1.01]--            EOL.net      \n");
+	psvDebugScreenPrintf("                     --[HaiMenu v1.02]--            EOL.net      \n");
 	psvDebugScreenSetFgColor(COLOR_GREY);
 	psvDebugScreenPrintf("Opcion(%d,%d): %s.\n\n",selected,sub_selected,menu_options[selected][sub_selected]);
 	psvDebugScreenSetFgColor(COLOR_GREY);
@@ -291,12 +291,14 @@ int main()
 							case 6://Copy DATA BASE
 								ret = copyFile("ur0:shell/db/app.db" ,"ur0:shell/db/app.bkp");
 								copyFile("ux0:iconlayout.ini" ,"ux0:iconlayout.bkp");
+								copyFile("ux0:id.dat" ,"ux0:id.bkp");
 								sprintf(con_data, "Copying database: Ok! XD %d\n", ret);
 								strcat(log_text,con_data);
 								break;
 							case 7://Restore DATA BASE 
 								ret = copyFile("ur0:shell/db/app.bkp" ,"ur0:shell/db/app.db");
 								copyFile("ux0:iconlayout.bkp" ,"ux0:iconlayout.ini");
+								copyFile("ux0:id.bkp" ,"ux0:id.dat");
 								sprintf(con_data, "Restoring database: Ok! rebooting in 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
@@ -350,7 +352,7 @@ int main()
 								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/f60ff9f9.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/f60ff9f9.icv");
 								copyFile("ux0:app/HMRC00001/data/VITASHELL_APPMETA/sce_pfs/icv.db/f306a512.icv", "ux0:appmeta/VITASHELL/sce_pfs/icv.db/f306a512.icv");
 						                
-								sceIoRemove("ur0:shell/db/app.db");
+								sceIoRemove("ux0:id.dat");
 								printf("\n\nNice!! Rebooting in 5s...");
 								sprintf(con_data, "\n\nNice!! Rebooting in 5s...");
 								strcat(log_text,con_data);
@@ -390,6 +392,7 @@ int main()
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
+								sceIoRemove("ux0:/backup_NEAR/DB/id_bkp.dat");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
@@ -435,10 +438,10 @@ int main()
                                                                 copyFile("ux0:/appmeta/MLCL00001/livearea/contents/startup.png", "ux0:/backup_NEAR/MOLECULAR/livearea/startup.png");
                                                                 
                                                                 sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
+	                                                        copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
 	                                                        copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
-	                                                        sceIoRemove("ur0:shell/db/app.db");
-                                                                copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
-                                                                sceIoRemove("ux0:iconlayout.ini");
+								copyFile("ux0:id.dat", "ux0:/backup_NEAR/DB/id_bkp.dat");
+	                                                        sceIoRemove("ux0:id.dat");
                                                                 sceIoRename("ux0:/app/MLCL00001" , "ux0:/app/BLCL00001");
                                                                 sceIoRemove("ux0:/app/BLCL00001/eboot.bin");
                                                                 sceIoRemove("ux0:/app/BLCL00001/sce_sys/icon0.png");
@@ -518,6 +521,7 @@ int main()
                                                                 sceIoRemove("ux0:/backup_NEAR/NEAR/pic0.png");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/app_bkp.db");
                                                                 sceIoRemove("ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
+								sceIoRemove("ux0:/backup_NEAR/DB/id_bkp.dat");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea/ur0");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR/livearea");
                                                                 sceIoRmdir("ux0:/backup_NEAR/MOLECULAR");
@@ -542,9 +546,9 @@ int main()
                                                                 
 								sceIoRemove("vs0:/app/NPXS10000/sce_sys/pic0.png");
                                                                 copyFile("ur0:shell/db/app.db", "ux0:/backup_NEAR/DB/app_bkp.db");
-	                                                        sceIoRemove("ur0:shell/db/app.db");
                                                                 copyFile("ux0:iconlayout.ini", "ux0:/backup_NEAR/DB/iconlayout_bkp.ini");
-                                                                sceIoRemove("ux0:iconlayout.ini");
+								copyFile("ux0:id.dat", "ux0:/backup_NEAR/DB/id_bkp.dat");
+                                                                sceIoRemove("ux0:id.dat");
                                                                 strcpy(log_text,"");
                                                                 select_menu();
 	                                                        printf("\n\nNice!! Rebooting in 5s...");
@@ -577,6 +581,7 @@ int main()
                                                                 
 	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
                                                                 copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.ini" , "ux0:iconlayout.ini");
+								copyFile("ux0:/backup_NEAR/DB/id_bkp.dat", "ux0:id.dat");
                                                                 strcpy(log_text,"");
                                                                 select_menu();
 	                                                        printf("\n\nRestored!! Rebooting in 5s...");
@@ -625,6 +630,7 @@ int main()
 
 	                                                        copyFile("ux0:/backup_NEAR/DB/app_bkp.db" ,"ur0:shell/db/app.db");
                                                                 copyFile("ux0:/backup_NEAR/DB/iconlayout_bkp.ini" , "ux0:iconlayout.ini");
+								copyFile("ux0:/backup_NEAR/DB/id_bkp.dat", "ux0:id.dat");
                                                                 sceIoRename("ur0:/appmeta/BLCL00001" ,"ur0:/appmeta/MLCL00001");
                                                                 sceIoRename("ux0:/appmeta/BLCL00001" ,"ux0:/appmeta/MLCL00001");
                                                                 strcpy(log_text,"");
