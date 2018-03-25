@@ -11,40 +11,41 @@ Install and boot VPK
 
 # Usage
 Press right trigger on boot while the blue screen is visible
-Menu: ------continue: boot normal, exit of Recovery
-        |
-        ----BOOT:----Reboot
-        |          |--IDU on
-        |          |--IDU off (demo mode)
-        |           
-        ----Fixes:---Erase id.dat
-        |          |--Erase act.dat
-        |          |--Erase ux0 tai config
-        |          |--Erase ur0 tai config
-        |          |--Erase Registre
-        |          |--Erase Database
-        |
-        ----Mount:---Mount ux0 (Mcard)
-        |          |-Unmount ux0
-        |
-        ---Backup:---Copy activation
-        |          |-Restore activation
-        |          |-copy ur0 tai config
-        |          |-restore ur0 tai config
-        |          |-copy ux0 tai config
-        |          |-restore ux0 tai config
-        |          |-copy database
-        |          |-restore database
-        |
-        ---Extras:---Install VITASHELL
-                   |-Install MOLECULAR
-                   |-Inject Molecular in NEAR
-                   |-Inject Vitashell in NEAR
-                   |-Restore to factory NEAR
-                   |-Sistem info (imei and cid)
-                   |-Uninstall Recovery (restore boot_config)
-                   |-clean Log
-                   
+
+-  Menu: ------continue: boot normal, exit of Recovery
+-         |
+-         ----BOOT:----Reboot
+-         |          |--IDU on
+-         |          |--IDU off (demo mode)
+-         |           
+-         ----Fixes:---Erase id.dat
+-         |          |--Erase act.dat
+-         |          |--Erase ux0 tai config
+-         |          |--Erase ur0 tai config
+-         |          |--Erase Registre
+-         |          |--Erase Database
+-         |
+-         ----Mount:---Mount ux0 (Mcard)
+-         |          |-Unmount ux0
+-         |
+-         ---Backup:---Copy activation
+-         |          |-Restore activation
+-         |          |-copy ur0 tai config
+-         |          |-restore ur0 tai config
+-         |          |-copy ux0 tai config
+-         |          |-restore ux0 tai config
+-         |          |-copy database
+-         |          |-restore database
+-         |
+-         ---Extras:---Install VITASHELL
+-                    |-Install MOLECULAR
+-                    |-Inject Molecular in NEAR
+-                    |-Inject Vitashell in NEAR
+-                    |-Restore to factory NEAR
+-                    |-Sistem info (imei and cid)
+-                    |-Uninstall Recovery (restore boot_config)
+-                    |-clean Log"
+                    
 # Releases
 
 v1.03: Fixed NEAR operations, Now NEAR is restored from the same vpk data, in the menu. Once the option to install MOLECULAR has been implemented, the option of injecting VITASHELL in its entirety into NEAR has been implanted, the only thing that has resisted me is the icons when doing NEARMOD, the order is lost, I am sorry but could not do anything about it if I want it NEARMOD work.
