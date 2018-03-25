@@ -225,7 +225,7 @@ int main()
                                                                 copyFile("tm0:/npdrm/act.dat" ,"ux0:Backup_act/act.dat");
 								copyFile("vd0:/registry/system.dreg" ,"ux0:Backup_act/system.dreg");
 								copyFile("vd0:/registry/system.ireg" ,"ux0:Backup_act/system.ireg");
-								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:Backup_act/myprofile.dat");
+								copyFile("ur0:user/00/np/myprofile.dat" ,"ux0:Backup_act/myprofile.dat");
                                                                 sprintf(con_data, "Copiando archivos de activacion: OK! XD  \n");
 								strcat(log_text,con_data); } 
                                                                 else 
@@ -233,7 +233,7 @@ int main()
 								copyFile("tm0:/npdrm/act.dat" ,"ux0:Backup_act/act.dat");
 								copyFile("vd0:/registry/system.dreg" ,"ux0:Backup_act/system.dreg");
 								copyFile("vd0:/registry/system.ireg" ,"ux0:Backup_act/system.ireg");
-								copyFile("ur0:/user/00/np/myprofile.dat" ,"ux0:Backup_act/myprofile.dat");
+								copyFile("ur0:user/00/np/myprofile.dat" ,"ux0:Backup_act/myprofile.dat");
                                                                 sprintf(con_data, "Copiando archivos de activacion: OK! XD  \n");
 								strcat(log_text,con_data); }
 								break;
@@ -241,7 +241,7 @@ int main()
                                                                 ret = copyFile("ux0:Backup_act/act.dat" ,"tm0:/npdrm/act.dat");
 								copyFile("ux0:Backup_act/system.dreg" ,"vd0:/registry/system.dreg");
 								copyFile("ux0:Backup_act/system.ireg" ,"vd0:/registry/system.ireg");
-								copyFile("ux0:Backup_act/myprofile.dat" ,"ur0:/user/00/np/myprofile.dat");
+								copyFile("ux0:Backup_act/myprofile.dat" ,"ur0:user/00/np/myprofile.dat");
                                                                 sprintf(con_data, "restaurando archivos de activacion: Ok! reiniciando en 5s %d", ret);
 								strcat(log_text,con_data);
                                                                 select_menu();
@@ -416,7 +416,7 @@ int main()
 							        break;
 
                                                         case 2://Molecular in Near
-                                                                if (doesDirExist("vs0:app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECUAR en NEAR!!\n");
+                                                                if (doesDirExist("vs0:app/NPXS10000/MLCL")) {sprintf(con_data, "Ya tienes convertido MOLECULAR en NEAR!!\n");
 								strcat(log_text,con_data); }
                                                                 else if (doesFileExist("vs0:app/NPXS10000/sce_sys/pic0.png")) {printf("Instalando Molecular en NEAR\ny haciendo copia de la Base de Datos\n");
 								{for (i = 0; i < 15; i++) {
@@ -456,7 +456,7 @@ int main()
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset(); }
-								else {sprintf(con_data, "Restaura primero NEAR...\n");
+								else {sprintf(con_data, "Restaura NEAR primero...\n");
 								strcat(log_text,con_data); }
                                                                 break;
                                                          
@@ -500,7 +500,7 @@ int main()
 								strcat(log_text,con_data);
                                                                 sceKernelDelayThread(6 * 1000 * 1000);
 	                                                        scePowerRequestColdReset(); }
-								else {sprintf(con_data, "Restaura primero NEAR...\n");
+								else {sprintf(con_data, "Restaura NEAR primero...\n");
 								strcat(log_text,con_data); }
                                                                 break;
 							
