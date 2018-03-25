@@ -19,6 +19,7 @@
                 "databaseFilename": ""
             },
             "macFrameworkPath": [
+                "/usr/local/vitasdk/bin",
                 "/System/Library/Frameworks",
                 "/Library/Frameworks"
             ]
@@ -27,6 +28,8 @@
             "name": "Linux",
             "includePath": [
                 "C:/Windows/System32/bash.exe",
+                "/usr/local/vitasdk/include",
+                "/usr/local/vitasdk/",
                 "${workspaceRoot}"
             ],
             "defines": [],
