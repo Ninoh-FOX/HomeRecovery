@@ -48,7 +48,7 @@ Press right trigger on boot while the blue screen is visible
                     
 # Releases
 
-v1.03: Fixed NEAR operations, Now NEAR is restored from the same vpk data, in the menu. Once the option to install MOLECULAR has been implemented, the option of injecting VITASHELL in its entirety into NEAR has been implanted, the only thing that has resisted me is the icons when doing NEARMOD, the order is lost, I am sorry but could not do anything about it if I want it NEARMOD work.
+v1.03: Fixed NEAR operations, Now NEAR is restored from the same vpk data, in the menu. Now the option to install MOLECULAR has been implemented, the option of injecting VITASHELL in its entirety into NEAR has been implanted, the only thing that has resisted me is the icons when doing NEARMOD, the order is lost, I am sorry but could not do anything about it if I want it NEARMOD work.
 
 v1.02: Fixed when icons / bubbles are messed up when doing operations on near or installing vitashell
 
