@@ -14,6 +14,8 @@ Press right trigger on boot while the blue screen is visible
 
 # Releases
 
+v1.03: Fixed NEAR operations, but... the icons order...
+
 v1.02: Fixed when icons / bubbles are messed up when doing operations on near or installing vitashell
 
 v1.01: Fixed when restore NEAR mode2 missing pic0.png 
