@@ -11,7 +11,7 @@
 	
 	<frame id="frame4">
 		<liveitem>
-			<text valign="bottom" align="left" text-align="left" text-valign="bottom" ellipsis="on">
+			<text align="left" text-align="left" ellipsis="on">
 				<str color="#ff8800" size="40" bold="on" shadow="on">HomeRecovery PSTV</str>
 			</text>
 		</liveitem>
@@ -28,7 +28,7 @@
 	<frame id="frame5">
 		<liveitem>
 			<text valign="bottom" align="right" text-align="right" text-valign="bottom" ellipsis="on">
-				<str size="22" shadow="on">v1.02</str>
+				<str size="22" shadow="on">v1.03</str>
 			</text>
 		</liveitem>
 	</frame>
