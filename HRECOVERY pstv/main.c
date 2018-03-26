@@ -34,8 +34,8 @@ int scePowerRequestSuspend();
 int scePowerRequestColdReset();
 int vshSysconIduModeSet();
 int vshSysconIduModeClear();
-int _vshIoMount();
-int vshIoUmount();
+int _vshIoMount(int id, const char *path, int permission, void *buf);
+int vshIoUmount(int id, int a2, int a3, int a4);;
 int _vshSblAimgrGetConsoleId();
 int sceRegMgrGetKeyStr();
 int selected = 0;
@@ -202,7 +202,7 @@ int main()
 					case 3: //mounts
 						switch (sub_selected){
 							case 0://Mount mem card
-								ret = _vshIoMount(0x800, NULL, 0, 0, 0, 0);
+								ret = _vshIoMount(0x800, 0, 2, malloc(0x100));
 								sprintf(con_data, "Montando MemCard: %d \n", ret);
 								strcat(log_text,con_data);
 								break;
