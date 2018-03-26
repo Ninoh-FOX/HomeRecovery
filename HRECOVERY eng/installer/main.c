@@ -16,8 +16,8 @@
 
 int get_key();
 int scePowerRequestColdReset();
-int _vshIoMount();
-int vshIoUmount();
+int _vshIoMount(int id, const char *path, int permission, void *buf);
+int vshIoUmount(int id, int a2, int a3, int a4);
 int doesFileExist();
 int copyFile();
 int WriteFile();
